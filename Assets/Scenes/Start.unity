@@ -757,6 +757,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Join
       m_Flags: 0
+    - m_Name: 
+      m_Id: 3cae9808-3e3f-414e-80d1-7a862c801adc
+      m_Path: <Gamepad>/start
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Join
+      m_Flags: 0
     m_Flags: 0
   playerPrefab: {fileID: 4442729174261035347, guid: fec65b38c2218624588c6996995e5dac, type: 3}
   maxPlayers: 4
