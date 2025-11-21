@@ -655,7 +655,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a066dc3bca91add4a8372991b4b35aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4442729174261035347, guid: fec65b38c2218624588c6996995e5dac, type: 3}
+  playerPrefab:
+  - {fileID: 694982432414425745, guid: 749ffd4e92646b145827cb2390cedceb, type: 3}
+  - {fileID: 694982432414425745, guid: 1b53c4a8298863846b65e1b35a2442bd, type: 3}
+  - {fileID: 694982432414425745, guid: 4bc4d62c67e6a744792dc4365de011b3, type: 3}
   pos:
   - {fileID: 1092320381}
   - {fileID: 867210335}

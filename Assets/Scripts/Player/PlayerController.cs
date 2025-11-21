@@ -1,7 +1,8 @@
 using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+//using static System.Net.Mime.MediaTypeNames;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isStrt = false;
     private float t = 0f;
     public float chargeMax = 5.0f;
+
+    Renderer[] renderers;
+
+    private int playerID;
+    private PlayerInput playerInput;
+    [SerializeField] private Text IDtext;
+
+
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -59,8 +68,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
-        //GetComponent<Renderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            playerID = playerInput.playerIndex;
+        }
+        
+        IDtext.text += $"Player {playerID + 1}\n";
+       
         rb = GetComponent<Rigidbody>();
     }
 

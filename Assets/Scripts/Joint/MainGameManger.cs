@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class MainGameManger : MonoBehaviour
 {
-    [SerializeField] private GameObject playerPrefab = default; //Player
+    [SerializeField] private GameObject[] playerPrefab = default; //Player
 
     [SerializeField] private Transform[] pos = default;         //生成位置
  
@@ -23,10 +23,11 @@ public class MainGameManger : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             
+           
 
             // 指定デバイスで PlayerInput を持つプレイヤーを生成
             var obj = PlayerInput.Instantiate(
-                prefab: playerPrefab,
+                prefab: playerPrefab[i],
                 playerIndex: i,
                 pairWithDevice: devices[i]
              );
@@ -34,9 +35,28 @@ public class MainGameManger : MonoBehaviour
             obj.transform.position = pos[i].position;
             obj.transform.rotation = pos[i].rotation;
 
-            //もしかしたら総合数が表示される
-            var ui = obj.GetComponent<PlayerUI>();
-            ui.SetCount( count );
+            //数が表示される
+  /*          var ui = obj.GetComponent<PlayerUI>();
+            if (devices[i] == null)
+            {
+                return;
+            }
+            if (devices[0] != null)
+            {
+                ui.SetCount(1);
+            }
+            if (devices[1] != null)
+            {
+                ui.SetCount(2);
+            }
+            if (devices[2] != null)
+            {
+                ui.SetCount(3);
+            }
+            if (devices[3] != null)
+            {
+                ui.SetCount(4);
+            }*/
         }
 
        
