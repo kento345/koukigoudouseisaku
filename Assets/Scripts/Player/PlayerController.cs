@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if(isTackling) {return;}
+        if(isTackling) {return; }
         Vector3 move = new Vector3(inputVer.x,0f,inputVer.y) * speed * Time.deltaTime;
         transform.position += move;
 
@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Rot;
         }
+        
     }
 
 
