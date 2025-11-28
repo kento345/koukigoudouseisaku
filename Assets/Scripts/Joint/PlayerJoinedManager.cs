@@ -9,17 +9,19 @@ using UnityEngine.UI;
 public class PlayerJoinedManager : MonoBehaviour
 {
     [SerializeField] private InputAction joinAction = default;  //参加するときの入力
-    [SerializeField] private int maxPlayers = 4;　　　　　　　　//参加上限
+    [SerializeField] private int maxPlayers = 4;        //参加上限
     //----------
-    [SerializeField] private Text device1text;                  //1デバイス名Text
-    [SerializeField] private Text device2text;　　　　　　　　　//2デバイス名Text
-    [SerializeField] private Text device3text;　　　　　　　　　//3デバイス名Text
-    [SerializeField] private Text device4text;　　　　　　　　　//4デバイス名Text
+    [SerializeField] private Text device1text;         //1デバイス名Text
+    [SerializeField] private Text device2text;         //2デバイス名Text
+    [SerializeField] private Text device3text;         //3デバイス名Text
+    [SerializeField] private Text device4text;         //4デバイス名Text
 
 
 
     private InputDevice[] joinedDevices;                        //参加中のデバイス
     private int currentCount = 0;                               //現在の参加数
+
+
 
 
     private void Awake()
@@ -35,6 +37,7 @@ public class PlayerJoinedManager : MonoBehaviour
         device2text.enabled = false;
         device3text.enabled = false;
         device4text.enabled = false;
+
     }
 
 
@@ -51,6 +54,7 @@ public class PlayerJoinedManager : MonoBehaviour
 
         //押されたデバイスを取得
         var device = context.control.device;
+        Debug.Log(device);
         //参加中のデバイスの中に今押したデバイスがある場合return(重複防止)
         foreach (var d in joinedDevices)
         {

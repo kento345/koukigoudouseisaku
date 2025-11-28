@@ -7,6 +7,7 @@ public class PlayerDataHolder : MonoBehaviour
 
     private InputDevice[] devices;                                //参加中のPlayerデバイス
     private int playerCount;                                      //Playerの接続数
+  
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class PlayerDataHolder : MonoBehaviour
         //インスタンスに自身を取得,シーンをまたいでも破壊されない
         Instance = this;
         DontDestroyOnLoad(gameObject);
+      
     }
 
 

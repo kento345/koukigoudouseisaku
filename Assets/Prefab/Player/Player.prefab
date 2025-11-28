@@ -427,13 +427,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 686853275334272529, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
       propertyPath: m_Text
-      value: '
-
-'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5228322274337749422, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
       propertyPath: m_Name
       value: Canvas (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079972058874009157, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

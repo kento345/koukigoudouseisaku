@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
 
+    private float y = -5.0f;
+
 
 
     public void OnMove(InputAction.CallbackContext context)
@@ -79,7 +81,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
             Move();
@@ -96,12 +97,16 @@ public class PlayerController : MonoBehaviour
         {
             t = 0f;
         }
+
+        if(transform.position.y < y)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Move()
     {
-        if(isTackling) {return; }
-        Vector3 move = new Vector3(inputVer.x,0f,inputVer.y) * speed * Time.deltaTime;
+        Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * speed * Time.deltaTime;
         transform.position += move;
 
         if (move != Vector3.zero)
@@ -109,7 +114,6 @@ public class PlayerController : MonoBehaviour
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Rot;
         }
-        
     }
 
 
@@ -119,7 +123,7 @@ public class PlayerController : MonoBehaviour
         isTackling = true;
         lastTackleTime = Time.time;
 
-        rb.AddForce(transform.forward * tackleForce * t, ForceMode.Impulse);
+        rb.AddForce(transform.forward * tackleForce * t , ForceMode.Impulse);
 
         Invoke("EndTackle", tackleDuration);
     }
@@ -127,7 +131,7 @@ public class PlayerController : MonoBehaviour
     void EndTackle()
     {
         isTackling = false;
-        // ¨‚¢‚ðŽ~‚ß‚éi‹}ƒuƒŒ[ƒLj
+        // ¨‚¢‚ðŽ~‚ß‚é
         rb.linearVelocity = Vector3.zero;
     }
 
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour
         if (enemyrb != null)
         {
             Vector3 knockBackDir = collision.transform.position - transform.position;
-            //knockBackDir.y = 0f;
+            knockBackDir.y = 0f;
             enemyrb.AddForce(knockBackDir.normalized * knockbackForce, ForceMode.Impulse);
         }
     }

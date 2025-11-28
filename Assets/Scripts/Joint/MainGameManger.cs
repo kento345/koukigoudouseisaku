@@ -2,8 +2,8 @@ using Unity.Entities;
 using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class MainGameManger : MonoBehaviour
 {
@@ -12,9 +12,12 @@ public class MainGameManger : MonoBehaviour
 
     [SerializeField] private Transform[] pos = default;         //生成位置
 
+    [SerializeField] private GameObject joinobj;
+
   
     void Start()
     {
+        joinobj = GameObject.Find("JoinedManager");
         //インスタンスがない場合はreturn
         if(PlayerDataHolder.Instance == null) { return; }
 
@@ -42,19 +45,24 @@ public class MainGameManger : MonoBehaviour
                 //生成後この位置にセット
                 obj.transform.position = pos[i].position;
                 obj.transform.rotation = pos[i].rotation;
+
             }
             else
             {
                 Instantiate(botPrefab, pos[i].position, pos[i].rotation);
             }
         }
-
-       
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void OnReset()
+    {
+        SceneManager.LoadScene("Start");
+        Destroy( joinobj );   
     }
 }
