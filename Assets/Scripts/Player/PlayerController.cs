@@ -7,9 +7,16 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("移動設定")]
-
+    //----------------------------------------------
     [SerializeField] private float speed = 5.0f; //移動スピード
- 
+    [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //チャージ・硬直中の速度倍率
+    private float speed2 = 0; //チャージ中のスピード
+    private float curentSpeed = 0;  //現在のスピード
+    [SerializeField] private float rotSpeed = 10.0f; //旋回スピード
+    [SerializeField] private float ChargeRotateSpeedRate = 0.7f; //チャージ・硬直中の旋回倍率
+    private float rotSpeed2 = 0;　//チャージ中旋回スピード
+    private float curentRotSpeed = 0;//現在の旋回スピード
+ //-----------------------------------------------------
     private Vector2 inputVer;
 
 
@@ -23,12 +30,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isTackling = false;
     private float lastTackleTime = 0f; // 最後のタックル時間
-
-    [HideInInspector] public bool isStrt = false;
-    private float t = 0f;
-    public float chargeMax = 5.0f;
-
-    Renderer[] renderers;
+    //--------------------------------------------------
+    private bool isPrese = false; //押されているかフラグ
+    [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
+    private float t = 0f; //タイマー
+    public float chargeMax = 5.0f; //タイマー上限
+    [SerializeField] private bool isMax = false;//チャージがMaxかのフラグ
+    //----------------------------------------
+   
 
     private int playerID;
     private PlayerInput playerInput;
@@ -36,17 +45,24 @@ public class PlayerController : MonoBehaviour
 
     private float y = -5.0f;
 
-
+    //---------------------------------------------------
+    private void Awake()
+    {
+        speed2 = speed * ChargeMoveSpeedRate;
+        rotSpeed2 = rotSpeed * ChargeRotateSpeedRate;
+    }
+    //---------------------------------------------
 
     public void OnMove(InputAction.CallbackContext context)
     {
         inputVer = context.ReadValue<Vector2>();
     }
-
+    //--------------------------------------------------
     public void OnTackle(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
+            isPrese = true;
             if (!isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 isStrt = true;
@@ -54,6 +70,7 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled )
         {
+            isPrese = false ;
             if(isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 Tackle();
@@ -62,7 +79,7 @@ public class PlayerController : MonoBehaviour
             isStrt = false;
         }
     }
-
+    //------------------------------------------------------
     public void SetCharge(float value)
     {
         t = value;
@@ -85,36 +102,45 @@ public class PlayerController : MonoBehaviour
     {
             Move();
 
+
         if (isStrt)
         {
             if (t < chargeMax)
             {
                 t += Time.deltaTime;
-                Debug.Log(t);
+            }//---------------------------------------------
+            if (t == chargeMax)
+            {
+              isMax = true;
             }
-        }
+        }//-------------------------------------------
         else if(!isStrt)
         {
             t = 0f;
         }
-
-        if(transform.position.y < y)
-        {
-            Destroy(gameObject);
-        }
     }
 
     void Move()
-    {
-        Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * speed * Time.deltaTime;
+    {//---------------------------------------------
+        if (isPrese)
+        {
+            curentSpeed = speed2;
+            curentRotSpeed = rotSpeed2;
+        }
+        if(!isPrese)
+        {
+            curentSpeed = speed;
+            curentRotSpeed = rotSpeed;
+        }
+        Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * curentSpeed * Time.deltaTime;
         transform.position += move;
 
         if (move != Vector3.zero)
         {
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
-            transform.rotation = Rot;
+            transform.rotation = Quaternion.Slerp(transform.rotation,Rot,curentRotSpeed * Time.deltaTime);
         }
-    }
+    }//---------------------------------------------
 
 
 
@@ -133,7 +159,13 @@ public class PlayerController : MonoBehaviour
         isTackling = false;
         // 勢いを止める
         rb.linearVelocity = Vector3.zero;
-    }
+        //---------------------------------------------
+        if (isMax)
+        {
+            //ここで硬直処理
+        }
+        isMax = false;
+    }//---------------------------------------------
 
     private void OnCollisionEnter(Collision collision)
     {

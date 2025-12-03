@@ -52,12 +52,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  ChargeMoveSpeedRate: 0.3
+  rotSpeed: 10
+  ChargeRotateSpeedRate: 0.7
   tackleForce: 15
   tackleDuration: 0.5
   tackleCooldown: 1
   knockbackForce: 5
   isStrt: 0
   chargeMax: 5
+  isMax: 0
   IDtext: {fileID: 3838055736849510194}
 --- !u!114 &1268846127386788035
 MonoBehaviour:
@@ -72,7 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeterImage: {fileID: 5542350002942648166}
-  fillSpeed: 1
+  MaxChargeTime: 3
 --- !u!114 &2657973930504160728
 MonoBehaviour:
   m_ObjectHideFlags: 0
