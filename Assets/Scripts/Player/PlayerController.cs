@@ -25,7 +25,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float tackleForce = 15.0f;    //タックルパワー
     [SerializeField] private float tackleDuration = 0.5f;//タックル状態の持続時間
     [SerializeField] private float tackleCooldown = 1.0f;//タックルのクールダウン時間
-    [SerializeField] private float knockbackForce = 5.0f;//ノックバック力
+    [SerializeField] private float WeakKnockbackForce = 2.5f; //弱パンチノックバック
+    [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
+    private float curentknockbackForce = 0f;//現在のノックバック力
+
 
     private Rigidbody rb;
     private bool isTackling = false;
@@ -172,9 +175,18 @@ public class PlayerController : MonoBehaviour
         Rigidbody enemyrb = collision.gameObject.GetComponent<Rigidbody>();
         if (enemyrb != null)
         {
+            if (isMax)
+            {
+                curentknockbackForce = StrongKnockbackForce;
+            }
+            else
+            {
+                curentknockbackForce = WeakKnockbackForce;
+            }
             Vector3 knockBackDir = collision.transform.position - transform.position;
             knockBackDir.y = 0f;
-            enemyrb.AddForce(knockBackDir.normalized * knockbackForce, ForceMode.Impulse);
+            Debug.Log(curentknockbackForce);
+            enemyrb.AddForce(knockBackDir.normalized * curentknockbackForce, ForceMode.Impulse);
         }
     }
 }
