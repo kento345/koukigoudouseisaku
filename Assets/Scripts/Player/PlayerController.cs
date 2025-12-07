@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
 
+    private float rigidity = 0.5f; //硬直時間
+    private bool isfinish = false;
+
 
     private Rigidbody rb;
     private bool isTackling = false;
@@ -38,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
     private float t = 0f; //タイマー
     public float chargeMax = 5.0f; //タイマー上限
-    [SerializeField] private bool isMax = false;//チャージがMaxかのフラグ
+    private bool isMax = false;//チャージがMaxかのフラグ
     //----------------------------------------
    
 
@@ -65,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
+            isfinish = false;
             isPrese = true;
             if (!isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
@@ -112,7 +116,7 @@ public class PlayerController : MonoBehaviour
             {
                 t += Time.deltaTime;
             }//---------------------------------------------
-            if (t == chargeMax)
+            if (t >= chargeMax)
             {
               isMax = true;
             }
@@ -121,10 +125,24 @@ public class PlayerController : MonoBehaviour
         {
             t = 0f;
         }
+        if(isfinish)
+        {
+            if (rigidity > 0)
+            {
+                rigidity -= Time.deltaTime;
+            }
+            if (rigidity <= 0)
+            {
+                isfinish = false;
+                rigidity = 0.5f;
+            }
+        }
+      
     }
 
     void Move()
     {//---------------------------------------------
+        if (isfinish) { return; }
         if (isPrese)
         {
             curentSpeed = speed2;
@@ -149,6 +167,7 @@ public class PlayerController : MonoBehaviour
 
     void Tackle()
     {
+        if (isfinish) { return; }
         isTackling = true;
         lastTackleTime = Time.time;
 
@@ -163,10 +182,12 @@ public class PlayerController : MonoBehaviour
         // 勢いを止める
         rb.linearVelocity = Vector3.zero;
         //---------------------------------------------
-        if (isMax)
-        {
-            //ここで硬直処理
-        }
+        //ここで硬直処理
+        isfinish = true;
+      
+       
+       
+
         isMax = false;
     }//---------------------------------------------
 
