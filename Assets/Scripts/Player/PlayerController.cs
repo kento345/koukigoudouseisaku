@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -23,13 +24,14 @@ public class PlayerController : MonoBehaviour
     [Header("タックル設定")]
 
     [SerializeField] private float tackleForce = 15.0f;    //タックルパワー
-    [SerializeField] private float tackleDuration = 0.5f;//タックル状態の持続時間
-    [SerializeField] private float tackleCooldown = 1.0f;//タックルのクールダウン時間
+    private float tackleDuration = 0.5f;//タックル状態の持続時間
+    private float tackleCooldown = 1.0f;//タックルのクールダウン時間
     [SerializeField] private float WeakKnockbackForce = 2.5f; //弱パンチノックバック
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
 
-    private float rigidity = 0.5f; //硬直時間
+    [SerializeField] private float StrongRecoveryTime = 1.0f; //硬直時間
+    private float curentRecoveryTime; 
     private bool isfinish = false;
 
 
@@ -49,13 +51,14 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
 
-    private float y = -5.0f;
+    //private float y = -5.0f;
 
     //---------------------------------------------------
     private void Awake()
     {
         speed2 = speed * ChargeMoveSpeedRate;
         rotSpeed2 = rotSpeed * ChargeRotateSpeedRate;
+        curentRecoveryTime = StrongRecoveryTime;
     }
     //---------------------------------------------
 
@@ -127,14 +130,14 @@ public class PlayerController : MonoBehaviour
         }
         if(isfinish)
         {
-            if (rigidity > 0)
+            if (curentRecoveryTime > 0)
             {
-                rigidity -= Time.deltaTime;
+                curentRecoveryTime -= Time.deltaTime;
             }
-            if (rigidity <= 0)
+            if (curentRecoveryTime <= 0)
             {
                 isfinish = false;
-                rigidity = 0.5f;
+                curentRecoveryTime = StrongRecoveryTime;
             }
         }
       
@@ -183,7 +186,11 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         //---------------------------------------------
         //ここで硬直処理
-        isfinish = true;
+        if(isMax)
+        {
+            isfinish = true;
+        }
+
       
        
        
