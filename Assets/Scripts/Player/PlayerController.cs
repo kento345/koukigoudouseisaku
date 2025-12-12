@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float HitDuration = 0.2f; //UŒ‚”»’è‚Ì‘±ŠÔ
     [SerializeField] private float wait = 0.25f;
 
+    [SerializeField] private float invincibleTime = 1.0f; //–³“G
+    private bool isInvincible = false;
+
     [SerializeField] private float StrongRecoveryTime = 1.0f; //d’¼ŠÔ
     private float curentRecoveryTime;
     private bool isfinish = false;
@@ -214,16 +217,32 @@ public class PlayerController : MonoBehaviour
 
             Vector3 knockBackDir = other.transform.position - transform.position;
             knockBackDir.y = 0.0f; // ‚’¼ƒmƒbƒNƒoƒbƒN‚ğ•t‚¯‚½‚­‚È‚¢ê‡
-            Debug.Log(curentknockbackForce);
+            //Debug.Log(curentknockbackForce);
             enemyrb.AddForce(knockBackDir.normalized * curentknockbackForce, ForceMode.Impulse);
         }
 
         AtackhitBox hitbox = other.GetComponent<AtackhitBox>();
         if (hitbox != null)
         {
+            if (isInvincible) return;
+
+            StartInvincible();
+
             PlayerController attacker = hitbox.owner;
 
             //Debug.Log("UŒ‚‚ğó‚¯‚½I " + attacker.name);
         }
+    }
+    void StartInvincible()
+    {
+        if (isInvincible) return;
+
+        isInvincible = true;
+        Invoke("EndInvincible", invincibleTime);
+    }
+
+    void EndInvincible()
+    {
+        isInvincible = false;
     }
 }
