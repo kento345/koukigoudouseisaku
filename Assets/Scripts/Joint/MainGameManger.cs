@@ -7,12 +7,14 @@ using UnityEngine.UI;
 
 public class MainGameManger : MonoBehaviour
 {
-    [SerializeField] private GameObject[] playerPrefab = default; //Player
+    [SerializeField] private GameObject playerPrefab = default; //Player
     [SerializeField] private GameObject botPrefab = default;
 
     [SerializeField] private Transform[] pos = default;         //生成位置
 
     [SerializeField] private GameObject joinobj;
+
+    [SerializeField] private Button button; 
 
   
     void Start()
@@ -38,7 +40,7 @@ public class MainGameManger : MonoBehaviour
             {
                 // 指定デバイスで PlayerInput を持つプレイヤーを生成
                 var obj = PlayerInput.Instantiate(
-                    prefab: playerPrefab[i],
+                    prefab: playerPrefab,
                     playerIndex: i,
                     pairWithDevice: devices[i]
                  );
@@ -52,6 +54,7 @@ public class MainGameManger : MonoBehaviour
                 Instantiate(botPrefab, pos[i].position, pos[i].rotation);
             }
         }
+        button.enabled = true;
     }
 
     // Update is called once per frame

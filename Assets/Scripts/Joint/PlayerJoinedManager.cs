@@ -66,7 +66,7 @@ public class PlayerJoinedManager : MonoBehaviour
         currentCount++;
         
         //それぞれのカウントでTextを表示しカウントを表示する
-       if(currentCount == 1)
+        if(currentCount == 1)
         {
             device1text.enabled = true;
             device1text.text += $"Player {currentCount}: {device.displayName}\n";
