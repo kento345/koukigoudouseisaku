@@ -6,9 +6,6 @@ public class PowerMeter : MonoBehaviour
 {
     [SerializeField] private Image MeterImage;
 
-    private float meterSpeed = 1.0f;
-    private Coroutine meter;
-
     [SerializeField] private float MaxChargeTime = 1.5f;
 
     private PlayerController pc;
@@ -23,19 +20,29 @@ public class PowerMeter : MonoBehaviour
     private void Update()
     {
         float speed = 1f / MaxChargeTime;
-        if(pc.isStrt)
+        if(pc.isPrese)
         {
             MeterImage.fillAmount += speed * Time.deltaTime;
         }
-        else if(!pc.isStrt) 
+        else if(!pc.isPrese) 
         {
-            MeterImage.fillAmount -= speed * Time.deltaTime;
+            MeterImage.fillAmount = 0;
         }
 
         // 0〜1 の範囲に制限
         MeterImage.fillAmount = Mathf.Clamp01(MeterImage.fillAmount);
 
-        // Player のタックル力 (t) に反映
-        pc.SetCharge(MeterImage.fillAmount * pc.chargeMax);
+        if (MeterImage.fillAmount == 1)
+        {
+            Debug.Log("100");
+            pc.SetCharge(true);
+        }
+       /* else
+        {
+            Debug.Log("0");
+            pc.SetCharge(false);
+        }*/
+            // Player のタックル力 (t) に反映
+           
     }
 }

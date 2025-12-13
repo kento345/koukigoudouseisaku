@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [Header("パンチ設定")]
 
     [SerializeField] private BoxCollider box;
-    [SerializeField] private float Power = 10.0f;
+    //[SerializeField] private float Power = 10.0f;
     [SerializeField] private float WeakKnockbackForce = 0.5f; //弱パンチノックバック
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
@@ -41,24 +41,19 @@ public class PlayerController : MonoBehaviour
 
 
     private Rigidbody rb;
-    private bool isTackling = false;
-    private float lastTackleTime = 0f; // 最後のタックル時間
-   
-    private bool isPrese = false; //押されているかフラグ
-    [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
-    private float t = 0f; //タイマー
-    public float chargeMax = 5.0f; //タイマー上限
+
+    [HideInInspector] public bool isPrese = false; //押されているかフラグ
     private bool isMax = false;//チャージがMaxかのフラグ
-  
-   
+
+
 
     private int playerID;
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
 
-    //private float y = -5.0f;
+    private float y = -5.0f;
 
-    
+
     private void Awake()
     {
         speed2 = speed * ChargeMoveSpeedRate;
@@ -78,24 +73,17 @@ public class PlayerController : MonoBehaviour
         {
             isfinish = false;
             isPrese = true;
-            isStrt = true;
         }
         if (context.canceled )
         {
             isPrese = false ;
-            if(isStrt)
-            {
-                Invoke("Panti", wait);
-            }
-
-            isStrt = false;
-           
+            Invoke("Panti", wait);
         }
     }
-    
-    public void SetCharge(float value)
+
+    public void SetCharge(bool a)
     {
-        t = value;
+        isMax = a;
     }
 
     void Start()
@@ -117,24 +105,7 @@ public class PlayerController : MonoBehaviour
     {
             Move();
 
-        float mag = inputVer.magnitude;
 
-
-        if (isStrt)
-        {
-            if (t < chargeMax)
-            {
-                t += Time.deltaTime;
-            }
-            if (t >= chargeMax)
-            {
-              isMax = true;
-            }
-        }
-        else if(!isStrt)
-        {
-            t = 0f;
-        }
         if (isfinish)
         {
             if (curentRecoveryTime > 0)
@@ -178,7 +149,6 @@ public class PlayerController : MonoBehaviour
     void Panti()
     {
         if (isfinish) { return; }
-        isTackling = true;
 
         box.enabled = true;
 
@@ -190,7 +160,6 @@ public class PlayerController : MonoBehaviour
 
     void EndTackle()
     {
-        isTackling = false;
 
         //ここで硬直処理
         if (isMax)
