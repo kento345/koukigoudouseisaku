@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("パンチ設定")]
 
-    [SerializeField] private BoxCollider box;
+    [SerializeField] private GameObject box;
+    private BoxCollider boxCollider;
     //[SerializeField] private float Power = 10.0f;
     [SerializeField] private float WeakKnockbackForce = 0.5f; //弱パンチノックバック
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             isfinish = false;
             isPrese = true;
+            box.SetActive(true);
         }
         if (context.canceled )
         {
@@ -97,8 +99,9 @@ public class PlayerController : MonoBehaviour
         IDtext.text += $"Player {playerID + 1}\n";
        
         rb = GetComponent<Rigidbody>();
-       
-        box.enabled = false;
+        boxCollider = box.GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
+        box.SetActive(false);
     }
 
     void FixedUpdate()
@@ -149,8 +152,8 @@ public class PlayerController : MonoBehaviour
     void Panti()
     {
         if (isfinish) { return; }
-
-        box.enabled = true;
+        boxCollider.enabled = true;
+       
 
         Invoke("EndTackle", HitDuration);
 
@@ -166,7 +169,8 @@ public class PlayerController : MonoBehaviour
         {
             isfinish = true;
         }
-        box.enabled = false;
+        boxCollider.enabled=false;
+        box.SetActive(false);
         isMax = false;
     }
 
