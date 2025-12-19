@@ -64,29 +64,6 @@ public class PlayerJoinedManager : MonoBehaviour
         //現在の参加数にデバイスを追加その後カウントを増やす
         joinedDevices[currentCount] = device;
         currentCount++;
-        
-        //それぞれのカウントでTextを表示しカウントを表示する
-        if(currentCount == 1)
-        {
-            device1text.enabled = true;
-            device1text.text += $"Player {currentCount}: {device.displayName}\n";
-
-        }
-        if (currentCount == 2)
-        {
-            device2text.enabled = true;
-            device2text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
-        if(currentCount == 3)
-        {
-            device3text.enabled = true;
-            device3text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
-        if (currentCount == 4)
-        {
-            device4text.enabled = true;
-            device4text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
     }
 
 

@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Entities;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -14,9 +15,12 @@ public class MainGameManger : MonoBehaviour
 
     [SerializeField] private GameObject joinobj;
 
-    [SerializeField] private Button button; 
+    [SerializeField] private Button button;
 
-  
+    [SerializeField] private string[] connectedDevices;
+
+
+
     void Start()
     {
         joinobj = GameObject.Find("JoinedManager");
@@ -27,10 +31,21 @@ public class MainGameManger : MonoBehaviour
         var devices = PlayerDataHolder.Instance.GetDevices();
         int count   = PlayerDataHolder.Instance.GetPlayerCount();
 
+        connectedDevices = new string[devices.Count()];
+
+        for (int i = 0; i < devices.Count(); i++)
+        {
+            if (devices[i] != null)
+            {
+                connectedDevices[i] =  $"[{i}] {devices[i].displayName} ({devices[i].layout})";
+            }
+            else
+            {
+                connectedDevices[i] = $"[{i}] None";
+            }
+        }
         //------------
-  
-              
-        
+
 
 
         //l”•ªPlayer‚Ì¶¬,PlayerID
