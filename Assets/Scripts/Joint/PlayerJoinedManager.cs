@@ -37,7 +37,6 @@ public class PlayerJoinedManager : MonoBehaviour
         device2text.enabled = false;
         device3text.enabled = false;
         device4text.enabled = false;
-
     }
 
 
@@ -50,20 +49,40 @@ public class PlayerJoinedManager : MonoBehaviour
     private void OnJoin(InputAction.CallbackContext context)
     {
         //現在の参加数がＭａｘならreturn
-        if(currentCount >= maxPlayers) {return; }
+        if (currentCount >= maxPlayers) { return; }
 
         //押されたデバイスを取得
         var device = context.control.device;
-        Debug.Log(device);
+        //Debug.Log(device);
         //参加中のデバイスの中に今押したデバイスがある場合return(重複防止)
         foreach (var d in joinedDevices)
         {
-            if(d == device) { return; }
+            if (d == device) { return; }
         }
 
         //現在の参加数にデバイスを追加その後カウントを増やす
         joinedDevices[currentCount] = device;
         currentCount++;
+        if (currentCount == 1)
+        {
+            device1text.enabled = true;
+            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+        }
+        if (currentCount == 2)
+        {
+            device1text.enabled = true;
+            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+        }
+        if (currentCount == 3)
+        {
+            device1text.enabled = true;
+            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+        }
+        if (currentCount == 4)
+        {
+            device1text.enabled = true;
+            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+        }
     }
 
 

@@ -56,14 +56,15 @@ MonoBehaviour:
   ChargeMoveSpeedRate: 0.3
   rotSpeed: 10
   ChargeRotateSpeedRate: 0.7
-  box: {fileID: 4978682355362240800}
+  box: {fileID: 3469375215933640511}
+  Power: 10
   WeakKnockbackForce: 15.5
   StrongKnockbackForce: 30
   HitDuration: 0.2
   wait: 0.25
-  invincibleTime: 1
   StrongRecoveryTime: 1
-  isPrese: 0
+  isStrt: 0
+  chargeMax: 5
   IDtext: {fileID: 3838055736849510194}
 --- !u!114 &1268846127386788035
 MonoBehaviour:

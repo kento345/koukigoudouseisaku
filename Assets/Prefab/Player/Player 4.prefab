@@ -9,14 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3702558243841740008}
-  - component: {fileID: 412306676394497422}
-  - component: {fileID: 1827331847830177389}
   - component: {fileID: 2657973930504160728}
   - component: {fileID: 4819170231551504973}
   - component: {fileID: 6860611353485101654}
   - component: {fileID: 133240618636203534}
   m_Layer: 0
-  m_Name: Player 3
+  m_Name: Player 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,45 +37,6 @@ Transform:
   - {fileID: 4137404791333111410}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &412306676394497422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 694982432414425745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e107434315c80e244bebd0b0661b6a4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  ChargeMoveSpeedRate: 0.3
-  rotSpeed: 10
-  ChargeRotateSpeedRate: 0.7
-  tackleForce: 15
-  tackleDuration: 0.5
-  tackleCooldown: 1
-  WeakKnockbackForce: 2.5
-  StrongKnockbackForce: 5
-  StrongRecoveryTime: 1
-  isStrt: 0
-  chargeMax: 5
-  IDtext: {fileID: 3838055736849510194}
---- !u!114 &1827331847830177389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 694982432414425745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8aeedd03f29ab845b30168563debbf1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MeterImage: {fileID: 5542350002942648166}
-  MaxChargeTime: 1.5
 --- !u!114 &2657973930504160728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +76,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 412306676394497422}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController1, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -149,7 +108,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 412306676394497422}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController1, Assembly-CSharp
         m_MethodName: OnTackle
         m_Mode: 0
@@ -447,30 +406,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
---- !u!114 &3838055736849510194 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 686853275334272529, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
-  m_PrefabInstance: {fileID: 4380790988856903971}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &4137404791333111410 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 405519186574741329, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
   m_PrefabInstance: {fileID: 4380790988856903971}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5542350002942648166 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8079972058874009157, guid: ff2c6d6a66488d147bc5d35516752fab, type: 3}
-  m_PrefabInstance: {fileID: 4380790988856903971}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

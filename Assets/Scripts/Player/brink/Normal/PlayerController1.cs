@@ -1,51 +1,51 @@
-using System.Diagnostics.Contracts;
+Ôªøusing System.Diagnostics.Contracts;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 //using static System.Net.Mime.MediaTypeNames;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController1 : MonoBehaviour
 {
-    [Header("à⁄ìÆê›íË")]
+    [Header("ÁßªÂãïË®≠ÂÆö")]
    
-    [SerializeField] private float speed = 5.0f; //à⁄ìÆÉXÉsÅ[Éh
-    [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //É`ÉÉÅ[ÉWÅEçdíºíÜÇÃë¨ìxî{ó¶
-    private float speed2 = 0; //É`ÉÉÅ[ÉWíÜÇÃÉXÉsÅ[Éh
-    private float curentSpeed = 0;  //åªç›ÇÃÉXÉsÅ[Éh
-    [SerializeField] private float rotSpeed = 10.0f; //ê˘âÒÉXÉsÅ[Éh
-    [SerializeField] private float ChargeRotateSpeedRate = 0.7f; //É`ÉÉÅ[ÉWÅEçdíºíÜÇÃê˘âÒî{ó¶
-    private float rotSpeed2 = 0;Å@//É`ÉÉÅ[ÉWíÜê˘âÒÉXÉsÅ[Éh
-    private float curentRotSpeed = 0;//åªç›ÇÃê˘âÒÉXÉsÅ[Éh
+    [SerializeField] private float speed = 5.0f; //ÁßªÂãï„Çπ„Éî„Éº„Éâ
+    [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //„ÉÅ„É£„Éº„Ç∏„ÉªÁ°¨Áõ¥‰∏≠„ÅÆÈÄüÂ∫¶ÂÄçÁéá
+    private float speed2 = 0; //„ÉÅ„É£„Éº„Ç∏‰∏≠„ÅÆ„Çπ„Éî„Éº„Éâ
+    private float curentSpeed = 0;  //ÁèæÂú®„ÅÆ„Çπ„Éî„Éº„Éâ
+    [SerializeField] private float rotSpeed = 10.0f; //ÊóãÂõû„Çπ„Éî„Éº„Éâ
+    [SerializeField] private float ChargeRotateSpeedRate = 0.7f; //„ÉÅ„É£„Éº„Ç∏„ÉªÁ°¨Áõ¥‰∏≠„ÅÆÊóãÂõûÂÄçÁéá
+    private float rotSpeed2 = 0;„ÄÄ//„ÉÅ„É£„Éº„Ç∏‰∏≠ÊóãÂõû„Çπ„Éî„Éº„Éâ
+    private float curentRotSpeed = 0;//ÁèæÂú®„ÅÆÊóãÂõû„Çπ„Éî„Éº„Éâ
 
     private Vector2 inputVer;
 
 
-    [Header("ÉpÉìÉ`ê›íË")]
+    [Header("„Éñ„É™„É≥„ÇØË®≠ÂÆö")]
 
-    [SerializeField] private BoxCollider box;
-    [SerializeField] private float Power = 10.0f;
-    [SerializeField] private float WeakKnockbackForce = 0.5f; //é„ÉpÉìÉ`ÉmÉbÉNÉoÉbÉN
-    [SerializeField] private float StrongKnockbackForce = 5.0f;//ã≠ÉpÉìÉ`ÉmÉbÉNÉoÉbÉN
-    private float curentknockbackForce = 0f;//åªç›ÇÃÉmÉbÉNÉoÉbÉNóÕ
-    private float tackleCooldown = 1.0f;//É^ÉbÉNÉãÇÃÉNÅ[ÉãÉ_ÉEÉìéûä‘
-    [SerializeField] private float HitDuration = 0.2f; //çUåÇîªíËÇÃéùë±éûä‘
-    [SerializeField] private float wait = 0.25f;
+    [SerializeField] private float tackleForce = 15.0f;    //„Éñ„É™„É≥„ÇØÂäõ
+    [SerializeField] private float tackleDuration = 0.5f;//ÊåÅÁ∂öÊôÇÈñì
+    [SerializeField] private float tackleCooldown = 1.0f;//„ÇØ„Éº„É´„ÉÄ„Ç¶„É≥ÊôÇÈñì
+    [SerializeField] private float WeakKnockbackForce = 2.5f; //Âº±„Éñ„É™„É≥„ÇØ„Éé„ÉÉ„ÇØ„Éê„ÉÉ„ÇØ
+    [SerializeField] private float StrongKnockbackForce = 5.0f;//Âº∑„Éñ„É™„É≥„ÇØ„Éé„ÉÉ„ÇØ„Éê„ÉÉ„ÇØ
 
-    [SerializeField] private float StrongRecoveryTime = 1.0f; //çdíºéûä‘
+    private float curentknockbackForce = 0f;//ÁèæÂú®„ÅÆ„Éé„ÉÉ„ÇØ„Éê„ÉÉ„ÇØÂäõ
+  
+
+    [SerializeField] private float StrongRecoveryTime = 1.0f; //Á°¨Áõ¥ÊôÇÈñì
     private float curentRecoveryTime;
     private bool isfinish = false;
 
 
     private Rigidbody rb;
     private bool isTackling = false;
-    private float lastTackleTime = 0f; // ç≈å„ÇÃÉ^ÉbÉNÉãéûä‘
+    private float lastTackleTime = 0f; // ÊúÄÂæå„ÅÆ„Çø„ÉÉ„ÇØ„É´ÊôÇÈñì
    
-    private bool isPrese = false; //âüÇ≥ÇÍÇƒÇ¢ÇÈÇ©ÉtÉâÉO
-    [HideInInspector] public bool isStrt = false;//É^ÉCÉ}ÉXÉ^Å[ÉgÉtÉâÉO
-    private float t = 0f; //É^ÉCÉ}Å[
-    public float chargeMax = 5.0f; //É^ÉCÉ}Å[è„å¿
-    private bool isMax = false;//É`ÉÉÅ[ÉWÇ™MaxÇ©ÇÃÉtÉâÉO
+    private bool isPrese = false; //Êäº„Åï„Çå„Å¶„ÅÑ„Çã„Åã„Éï„É©„Ç∞
+    [HideInInspector] public bool isStrt = false;//„Çø„Ç§„Éû„Çπ„Çø„Éº„Éà„Éï„É©„Ç∞
+    private float t = 0f; //„Çø„Ç§„Éû„Éº
+    public float chargeMax = 5.0f; //„Çø„Ç§„Éû„Éº‰∏äÈôê
+    private bool isMax = false;//„ÉÅ„É£„Éº„Ç∏„ÅåMax„Åã„ÅÆ„Éï„É©„Ç∞
   
    
 
@@ -82,14 +82,12 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled )
         {
-            isPrese = false ;
-            if(isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
+            isPrese = false;
+            if (isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
-                Invoke("Panti", wait);
+                Tackle();
             }
-
             isStrt = false;
-           
         }
     }
     
@@ -109,8 +107,6 @@ public class PlayerController : MonoBehaviour
         IDtext.text += $"Player {playerID + 1}\n";
        
         rb = GetComponent<Rigidbody>();
-       
-        box.enabled = false;
     }
 
     void FixedUpdate()
@@ -164,27 +160,26 @@ public class PlayerController : MonoBehaviour
             curentRotSpeed = rotSpeed;
         }
         Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * curentSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + move);
-        //transform.position += move;
+        //rb.MovePosition(rb.position + move);
+        transform.position += move;
 
         if (move != Vector3.zero)
         {
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
-            //transform.rotation = Quaternion.Slerp(transform.rotation,Rot, curentRotSpeed * Time.deltaTime);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, Rot, curentRotSpeed * Time.fixedDeltaTime));
+            transform.rotation = Quaternion.Slerp(transform.rotation,Rot,curentRotSpeed * Time.deltaTime);
+            //rb.MoveRotation(Quaternion.Slerp(rb.rotation, Rot, curentRotSpeed * Time.fixedDeltaTime));
         }
     }
 
-    void Panti()
+    void Tackle()
     {
         if (isfinish) { return; }
         isTackling = true;
         lastTackleTime = Time.time;
 
-        box.enabled = true;
+        rb.AddForce(transform.forward * tackleForce, ForceMode.Impulse);
 
-        Invoke("EndTackle", HitDuration);
-
+        Invoke("EndTackle", tackleDuration);
     }
 
    
@@ -192,19 +187,20 @@ public class PlayerController : MonoBehaviour
     void EndTackle()
     {
         isTackling = false;
+        rb.linearVelocity = Vector3.zero;
 
-        //Ç±Ç±Ç≈çdíºèàóù
+        //„Åì„Åì„ÅßÁ°¨Áõ¥Âá¶ÁêÜ
         if (isMax)
         {
             isfinish = true;
         }
-        box.enabled = false;
+       
         isMax = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        Rigidbody enemyrb = other.gameObject.GetComponent<Rigidbody>();
+        Rigidbody enemyrb = collision.gameObject.GetComponent<Rigidbody>();
         if (enemyrb != null)
         {
             if (isMax)
@@ -216,18 +212,10 @@ public class PlayerController : MonoBehaviour
                 curentknockbackForce = WeakKnockbackForce;
             }
 
-            Vector3 knockBackDir = other.transform.position - transform.position;
-            knockBackDir.y = 0.0f; // êÇíºÉmÉbÉNÉoÉbÉNÇïtÇØÇΩÇ≠Ç»Ç¢èÍçá
+            Vector3 knockBackDir = collision.transform.position - transform.position;
+            knockBackDir.y = 0f;
             Debug.Log(curentknockbackForce);
             enemyrb.AddForce(knockBackDir.normalized * curentknockbackForce, ForceMode.Impulse);
-        }
-
-        AtackhitBox hitbox = other.GetComponent<AtackhitBox>();
-        if (hitbox != null)
-        {
-            PlayerController attacker = hitbox.owner;
-
-            //Debug.Log("çUåÇÇéÛÇØÇΩÅI " + attacker.name);
         }
     }
 }

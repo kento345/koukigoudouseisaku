@@ -1,14 +1,11 @@
-﻿using System.Diagnostics.Contracts;
-using UnityEditor.ShaderGraph.Internal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-//using static System.Net.Mime.MediaTypeNames;
 
-public class PlayerController1 : MonoBehaviour
+public class PlayerCon : MonoBehaviour
 {
     [Header("移動設定")]
-   
+
     [SerializeField] private float speed = 5.0f; //移動スピード
     [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //チャージ・硬直中の速度倍率
     private float speed2 = 0; //チャージ中のスピード
@@ -29,7 +26,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private float WeakKnockbackForce = 2.5f; //��p���`�m�b�N�o�b�N
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強パンチノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
-  
+
 
     [SerializeField] private float StrongRecoveryTime = 1.0f; //硬直時間
     private float curentRecoveryTime;
@@ -39,14 +36,14 @@ public class PlayerController1 : MonoBehaviour
     private Rigidbody rb;
     private bool isTackling = false;
     private float lastTackleTime = 0f; // 最後のタックル時間
-   
+
     private bool isPrese = false; //押されているかフラグ
     [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
     private float t = 0f; //タイマー
     public float chargeMax = 5.0f; //タイマー上限
     private bool isMax = false;//チャージがMaxかのフラグ
-  
-   
+
+
 
     private int playerID;
     private PlayerInput playerInput;
@@ -54,20 +51,20 @@ public class PlayerController1 : MonoBehaviour
 
     //private float y = -5.0f;
 
-    
+
     private void Awake()
     {
         speed2 = speed * ChargeMoveSpeedRate;
         rotSpeed2 = rotSpeed * ChargeRotateSpeedRate;
         curentRecoveryTime = StrongRecoveryTime;
     }
-    
+
 
     public void OnMove(InputAction.CallbackContext context)
     {
         inputVer = context.ReadValue<Vector2>();
     }
-    
+
     public void OnTackle(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -78,9 +75,8 @@ public class PlayerController1 : MonoBehaviour
             {
                 isStrt = true;
             }
-            isStrt = true;
         }
-        if (context.canceled )
+        if (context.canceled)
         {
             isPrese = false;
             if (isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
@@ -90,7 +86,7 @@ public class PlayerController1 : MonoBehaviour
             isStrt = false;
         }
     }
-    
+
     public void SetCharge(float value)
     {
         t = value;
@@ -103,15 +99,15 @@ public class PlayerController1 : MonoBehaviour
         {
             playerID = playerInput.playerIndex;
         }
-        
+
         IDtext.text += $"Player {playerID + 1}\n";
-       
+
         rb = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-            Move();
+        Move();
 
         float mag = inputVer.magnitude;
 
@@ -124,10 +120,10 @@ public class PlayerController1 : MonoBehaviour
             }
             if (t >= chargeMax)
             {
-              isMax = true;
+                isMax = true;
             }
         }
-        else if(!isStrt)
+        else if (!isStrt)
         {
             t = 0f;
         }
@@ -154,7 +150,7 @@ public class PlayerController1 : MonoBehaviour
             curentSpeed = speed2;
             curentRotSpeed = rotSpeed2;
         }
-        if(!isPrese)
+        if (!isPrese)
         {
             curentSpeed = speed;
             curentRotSpeed = rotSpeed;
@@ -166,7 +162,7 @@ public class PlayerController1 : MonoBehaviour
         if (move != Vector3.zero)
         {
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation,Rot,curentRotSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Rot, curentRotSpeed * Time.deltaTime);
             //rb.MoveRotation(Quaternion.Slerp(rb.rotation, Rot, curentRotSpeed * Time.fixedDeltaTime));
         }
     }
@@ -177,12 +173,12 @@ public class PlayerController1 : MonoBehaviour
         isTackling = true;
         lastTackleTime = Time.time;
 
-        rb.AddForce(transform.forward * tackleForce * t, ForceMode.Impulse);
+        rb.AddForce(transform.forward * tackleForce, ForceMode.Impulse);
 
         Invoke("EndTackle", tackleDuration);
     }
 
-   
+
 
     void EndTackle()
     {
@@ -194,7 +190,7 @@ public class PlayerController1 : MonoBehaviour
         {
             isfinish = true;
         }
-       
+
         isMax = false;
     }
 

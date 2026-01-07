@@ -1114,6 +1114,7 @@ MonoBehaviour:
   - {fileID: 1921458903}
   joinobj: {fileID: 0}
   button: {fileID: 907438147}
+  connectedDevices: []
 --- !u!1 &1921458902
 GameObject:
   m_ObjectHideFlags: 0
