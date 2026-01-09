@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using UnityEditor.Rendering;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,11 +24,14 @@ public class PlayerController1 : MonoBehaviour
 
     [Header("ブリンク設定")]
 
-    [SerializeField] private float tackleForce = 15.0f;    //ブリンク力
-    [SerializeField] private float tackleDuration = 0.5f;//持続時間
+    [SerializeField] private float tackleForce ;    //ブリンク力
+    //[SerializeField] private float tackleDuration = 0.5f;//持続時間
+    [SerializeField] private float tackleDuration = 5.0f;
     [SerializeField] private float tackleCooldown = 1.0f;//クールダウン時間
     [SerializeField] private float WeakKnockbackForce = 2.5f; //弱ブリンクノックバック
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強ブリンクノックバック
+
+    private Vector3 tackleStartPos;
 
     private float curentknockbackForce = 0f;//現在のノックバック力
   
@@ -40,6 +44,9 @@ public class PlayerController1 : MonoBehaviour
     private Rigidbody rb;
     private bool isTackling = false;
     private float lastTackleTime = 0f; // 最後のタックル時間
+
+    public bool isTackled = false;
+
    
     private bool isPrese = false; //押されているかフラグ
     [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
@@ -54,6 +61,8 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private Text IDtext;
 
     //private float y = -5.0f;
+
+    
 
     
     private void Awake()
@@ -73,11 +82,13 @@ public class PlayerController1 : MonoBehaviour
     {
         if (context.performed)
         {
+            isTackled = false;
             isfinish = false;
-            isPrese = true;
+            
             if (!isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 isStrt = true;
+                isPrese = true;
             }
         }
         if (context.canceled )
@@ -86,6 +97,7 @@ public class PlayerController1 : MonoBehaviour
             if (isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 Tackle();
+                isTackled = true;
             }
             isStrt = false;
         }
@@ -115,6 +127,15 @@ public class PlayerController1 : MonoBehaviour
 
         float mag = inputVer.magnitude;
 
+        if (isTackling)
+        {
+            float dist = Vector3.Distance(tackleStartPos,transform.position);
+            if(dist >= tackleDuration)
+            {
+                EndTackle();
+            }
+        }
+
 
         if (isStrt)
         {
@@ -127,7 +148,7 @@ public class PlayerController1 : MonoBehaviour
               isMax = true;
             }
         }
-        else if(!isStrt)
+        else if (!isStrt)
         {
             t = 0f;
         }
@@ -160,14 +181,15 @@ public class PlayerController1 : MonoBehaviour
             curentRotSpeed = rotSpeed;
         }
         Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * curentSpeed * Time.deltaTime;
-        //rb.MovePosition(rb.position + move);
-        transform.position += move;
+        //transform.position += move;
+        rb.MovePosition(rb.position + move);
+       
 
         if (move != Vector3.zero)
         {
             Quaternion Rot = Quaternion.LookRotation(move, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation,Rot,curentRotSpeed * Time.deltaTime);
-            //rb.MoveRotation(Quaternion.Slerp(rb.rotation, Rot, curentRotSpeed * Time.fixedDeltaTime));
+            //transform.rotation = Quaternion.Slerp(transform.rotation,Rot,curentRotSpeed * Time.deltaTime);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, Rot, curentRotSpeed * Time.fixedDeltaTime));
         }
     }
 
@@ -177,12 +199,15 @@ public class PlayerController1 : MonoBehaviour
         isTackling = true;
         lastTackleTime = Time.time;
 
+        tackleStartPos = transform.position;
+
+        rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * tackleForce, ForceMode.Impulse);
 
-        Invoke("EndTackle", tackleDuration);
+        //Invoke("EndTackle", tackleDuration);
     }
 
-   
+
 
     void EndTackle()
     {
@@ -194,28 +219,37 @@ public class PlayerController1 : MonoBehaviour
         {
             isfinish = true;
         }
-       
+
         isMax = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Rigidbody enemyrb = collision.gameObject.GetComponent<Rigidbody>();
-        if (enemyrb != null)
+        if(collision.gameObject.CompareTag("Player"))
         {
-            if (isMax)
+            if (isTackling)
             {
-                curentknockbackForce = StrongKnockbackForce;
-            }
-            else
-            {
-                curentknockbackForce = WeakKnockbackForce;
-            }
+                EndTackle();
 
-            Vector3 knockBackDir = collision.transform.position - transform.position;
-            knockBackDir.y = 0f;
-            Debug.Log(curentknockbackForce);
-            enemyrb.AddForce(knockBackDir.normalized * curentknockbackForce, ForceMode.Impulse);
+                Rigidbody enemyrb = collision.gameObject.GetComponent<Rigidbody>();
+                if (enemyrb != null && isTackling)
+                {
+                    if (isMax)
+                    {
+                        curentknockbackForce = StrongKnockbackForce;
+                    }
+                    else
+                    {
+                        curentknockbackForce = WeakKnockbackForce;
+                    }
+
+                    Vector3 knockBackDir = collision.transform.position - transform.position;
+                    knockBackDir.y = 0f;
+                    Debug.Log(curentknockbackForce);
+                    enemyrb.AddForce(knockBackDir.normalized * curentknockbackForce, ForceMode.Impulse);
+                }
+            }
         }
+      
     }
 }
