@@ -71,18 +71,18 @@ public class PlayerJoinedManager : MonoBehaviour
         }
         if (currentCount == 2)
         {
-            device1text.enabled = true;
-            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+            device2text.enabled = true;
+            device2text.text += $"Player {currentCount}: {device.displayName}\n";
         }
         if (currentCount == 3)
         {
-            device1text.enabled = true;
-            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+            device3text.enabled = true;
+            device3text.text += $"Player {currentCount}: {device.displayName}\n";
         }
         if (currentCount == 4)
         {
-            device1text.enabled = true;
-            device1text.text += $"Player {currentCount}: {device.displayName}\n";
+            device4text.enabled = true;
+            device4text.text += $"Player {currentCount}: {device.displayName}\n";
         }
     }
 

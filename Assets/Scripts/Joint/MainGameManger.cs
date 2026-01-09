@@ -13,7 +13,7 @@ public class MainGameManger : MonoBehaviour
 
     [SerializeField] private Transform[] pos = default;         //ê∂ê¨à íu
 
-    [SerializeField] private GameObject joinobj;
+    private GameObject joinobj;
 
     [SerializeField] private Button button;
 
