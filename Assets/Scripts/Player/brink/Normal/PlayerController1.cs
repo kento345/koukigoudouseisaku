@@ -10,7 +10,7 @@ public class PlayerController1 : MonoBehaviour
 {
     [Header("移動設定")]
 
-    [SerializeField] private float speed = 5.0f; //移動スピード
+    [SerializeField,TextArea(5,10)] private float speed = 5.0f; //移動スピード
     [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //チャージ・硬直中の速度倍率
     private float speed2 = 0; //チャージ中のスピード
     private float curentSpeed = 0;  //現在のスピード
@@ -26,29 +26,28 @@ public class PlayerController1 : MonoBehaviour
 
     [SerializeField] private float tackleForce;    //ブリンク力
     [SerializeField] private float tackleDuration = 0.5f;//持続時間
-    //[SerializeField] private float tackleDuration = 5.0f;
     [SerializeField] private float tackleCooldown = 1.0f;//クールダウン時間
-    [SerializeField] private float WeakKnockbackForce = 2.5f; //弱ブリンクノックバック
-    [SerializeField] private float StrongKnockbackForce = 5.0f;//強ブリンクノックバック
 
-    //private Vector3 tackleStartPos;
-
-    private float curentknockbackForce = 0f;//現在のノックバック力
-
-    [Header("無敵設定")]
-    [SerializeField] private float invincibleTime = 1.0f;
-    public bool isInvincible = false;
-
+    //-----硬直-----
     [SerializeField] private float StrongRecoveryTime = 1.0f; //硬直時間
     private float curentRecoveryTime;
     private bool isfinish = false;
 
 
+    [Header("ノックバック,無敵設定")]
+    [SerializeField] private float WeakKnockbackForce = 2.5f; //弱ブリンクノックバック
+    [SerializeField] private float StrongKnockbackForce = 5.0f;//強ブリンクノックバック
+    private float curentknockbackForce = 0f;//現在のノックバック力
+
+    [SerializeField] private float StunInvincibleTime  = 1.0f; //無敵時間
+    public bool isInvincible = false;
+
+ 
+
+
     private Rigidbody rb;
     private bool isTackling = false;
     private float lastTackleTime = 0f; // 最後のタックル時間
-
-    public bool isTackled = false;
 
 
     private bool isPrese = false; //押されているかフラグ
@@ -58,7 +57,7 @@ public class PlayerController1 : MonoBehaviour
     private bool isMax = false;//チャージがMaxかのフラグ
 
 
-
+    //-----PlayerID-----
     private int playerID;
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
@@ -85,7 +84,6 @@ public class PlayerController1 : MonoBehaviour
     {
         if (context.performed)
         {
-            isTackled = false;
             isfinish = false;
 
             if (!isTackling && Time.time > lastTackleTime + tackleCooldown)
@@ -100,7 +98,6 @@ public class PlayerController1 : MonoBehaviour
             if (isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 Tackle();
-                isTackled = true;
             }
             isStrt = false;
         }
@@ -224,7 +221,7 @@ public class PlayerController1 : MonoBehaviour
         isMax = false;
     }
 
-    public void StartInvincible()
+/*    public void StartInvincible()
     {
         if (isInvincible) return;
 
@@ -239,21 +236,21 @@ public class PlayerController1 : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(!isTackling) return;
+        if (!isTackling) return;
 
         if (collision.gameObject.CompareTag("Player"))
         {
-           /* KnockbackReceiver enemyKnockback = collision.gameObject.GetComponent<KnockbackReceiver>();
+            KnockbackReceiver enemyKnockback = collision.gameObject.GetComponent<KnockbackReceiver>();
             if (enemyKnockback != null)
             {
                 float force = isMax ? StrongKnockbackForce : WeakKnockbackForce;
                 Vector3 dir = collision.transform.position - transform.position;
                 enemyKnockback.ReceiveKnockback(dir, force);
                 enemyKnockback.StartInvincible(invincibleTime);
-            }*/
+            }
             EndTackle();
         }
 
-       
-    }
+
+    }*/
 }
