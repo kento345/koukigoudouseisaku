@@ -10,7 +10,7 @@ public class PlayerController1 : MonoBehaviour
 {
     [Header("移動設定")]
 
-    [SerializeField,TextArea(5,10)] private float speed = 5.0f; //移動スピード
+    [SerializeField] private float speed = 5.0f; //移動スピード
     [SerializeField] private float ChargeMoveSpeedRate = 0.3f; //チャージ・硬直中の速度倍率
     private float speed2 = 0; //チャージ中のスピード
     private float curentSpeed = 0;  //現在のスピード
@@ -39,21 +39,25 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強ブリンクノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
 
+
+    private float knockbackTime = 5.0f;
+    private float knockbackCounter;
+
+    private Vector2 knockbackDir;
+    private bool isKnockback = false;
+
     [SerializeField] private float StunInvincibleTime  = 1.0f; //無敵時間
-    public bool isInvincible = false;
-
- 
-
+    private float invincibilityCounter;
 
     private Rigidbody rb;
     private bool isTackling = false;
     private float lastTackleTime = 0f; // 最後のタックル時間
 
 
-    private bool isPrese = false; //押されているかフラグ
-    [HideInInspector] public bool isStrt = false;//タイマスタートフラグ
-    private float t = 0f; //タイマー
-    public float chargeMax = 5.0f; //タイマー上限
+    private bool isPrese = false; //攻撃キー入力フラグ
+    [HideInInspector] public bool isStrt = false;//チャージ開始フラグ
+    private float t = 0f; //チャージ量
+    public float chargeMax = 5.0f; //チャージ上限
     private bool isMax = false;//チャージがMaxかのフラグ
 
 
@@ -61,9 +65,6 @@ public class PlayerController1 : MonoBehaviour
     private int playerID;
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
-
-    //private float y = -5.0f;
-
 
 
 
@@ -123,8 +124,6 @@ public class PlayerController1 : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
-
         float mag = inputVer.magnitude;
 
         if (isStrt)
@@ -155,6 +154,25 @@ public class PlayerController1 : MonoBehaviour
             }
         }
 
+        if (invincibilityCounter > 0)
+        {
+            invincibilityCounter -= Time.deltaTime;
+        }
+        if (isKnockback)
+        {
+            knockbackCounter -= Time.deltaTime;
+            rb.linearVelocity = knockbackDir * curentknockbackForce;
+            if(knockbackCounter <= 0)
+            {
+                isKnockback = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        Move();
     }
 
     void Move()
@@ -194,9 +212,6 @@ public class PlayerController1 : MonoBehaviour
         isTackling = true;
         lastTackleTime = Time.time;
 
-        //tackleStartPos = transform.position;
-
-        //rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * tackleForce, ForceMode.Impulse);
 
         Invoke("EndTackle", tackleDuration);
@@ -208,8 +223,6 @@ public class PlayerController1 : MonoBehaviour
     void EndTackle()
     {
         rb.linearVelocity = Vector3.zero;
-
-        //Debug.Log("Stop");
         isTackling = false;
        
         //ここで硬直処理
@@ -221,36 +234,37 @@ public class PlayerController1 : MonoBehaviour
         isMax = false;
     }
 
-/*    public void StartInvincible()
+    public void KnockBack(Vector3 pos)
     {
-        if (isInvincible) return;
+        knockbackCounter = knockbackTime;
+        isKnockback = true;
 
-        isInvincible = true;
-        Invoke(nameof(EndInvincible), invincibleTime);
+        knockbackDir = transform.position - pos;
+        knockbackDir.Normalize();
     }
 
-    private void EndInvincible()
+    public void DamagePlahyer()
     {
-        isInvincible = false;
+        //無敵じゃないとき攻撃を受けたらLayerかTagを変更する
+        if(invincibilityCounter <= 0)
+        {
+
+
+            invincibilityCounter = StunInvincibleTime;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isTackling) return;
-
         if (collision.gameObject.CompareTag("Player"))
         {
-            KnockbackReceiver enemyKnockback = collision.gameObject.GetComponent<KnockbackReceiver>();
-            if (enemyKnockback != null)
+            if (isTackling)
             {
-                float force = isMax ? StrongKnockbackForce : WeakKnockbackForce;
-                Vector3 dir = collision.transform.position - transform.position;
-                enemyKnockback.ReceiveKnockback(dir, force);
-                enemyKnockback.StartInvincible(invincibleTime);
+                PlayerController1 p = collision.gameObject.GetComponent<PlayerController1>();
+
+                p.KnockBack(transform.position);
+                p.DamagePlahyer();
             }
-            EndTackle();
         }
-
-
-    }*/
+    }
 }
