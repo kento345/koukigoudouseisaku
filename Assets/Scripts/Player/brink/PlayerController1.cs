@@ -39,6 +39,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private float StrongKnockbackForce = 5.0f;//強ブリンクノックバック
     private float curentknockbackForce = 0f;//現在のノックバック力
 
+    private float x =  0;
 
     private float knockbackTime = 5.0f;
     private float knockbackCounter;
@@ -153,7 +154,14 @@ public class PlayerController1 : MonoBehaviour
                 curentRecoveryTime = StrongRecoveryTime;
             }
         }
-
+        if (isMax)
+        {
+            curentknockbackForce = StrongKnockbackForce;
+        }
+        else
+        {
+            curentknockbackForce = WeakKnockbackForce;
+        }
         if (invincibilityCounter > 0)
         {
             invincibilityCounter -= Time.deltaTime;
@@ -161,17 +169,17 @@ public class PlayerController1 : MonoBehaviour
         if (isKnockback)
         {
             knockbackCounter -= Time.deltaTime;
-            rb.linearVelocity = knockbackDir * curentknockbackForce;
+            //rb.linearVelocity = knockbackDir * curentknockbackForce;
             if(knockbackCounter <= 0)
             {
                 isKnockback = false;
             }
-            else
+            return;
+/*            else
             {
                 return;
-            }
+            }*/
         }
-
         Move();
     }
 
@@ -236,11 +244,13 @@ public class PlayerController1 : MonoBehaviour
 
     public void KnockBack(Vector3 pos)
     {
-        knockbackCounter = knockbackTime;
         isKnockback = true;
+        x = knockbackTime;
+       
+        knockbackDir = (transform.position - pos).normalized;
 
-        knockbackDir = transform.position - pos;
-        knockbackDir.Normalize();
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(knockbackDir * x,ForceMode.Impulse);
     }
 
     public void DamagePlahyer()
@@ -260,9 +270,10 @@ public class PlayerController1 : MonoBehaviour
         {
             if (isTackling)
             {
-                PlayerController1 p = collision.gameObject.GetComponent<PlayerController1>();
-
-                p.KnockBack(transform.position);
+               
+                PlayerCon p = collision.gameObject.GetComponent<PlayerCon>();
+               
+                p.KnockBack(transform.position,curentknockbackForce);
                 p.DamagePlahyer();
             }
         }
