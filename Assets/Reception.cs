@@ -3,20 +3,20 @@ using UnityEngine;
 public class Reception : MonoBehaviour
 {
     [Header("ノックバック,無敵設定")]
-    private float knockbackForce = 0;
-
-    private float knockbackTime = 5.0f;
+    private float knockbackTime = 0.3f;
     private float knockbackCounter;
 
-    private Vector2 knockbackDir;
-    private bool isKnockback = false;
+    private Vector3 knockbackDir;
+    public bool isKnockback = false;
 
     [SerializeField] private float StunInvincibleTime = 1.0f; //無敵時間
     private float invincibilityCounter;
 
+    Rigidbody rb;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -33,42 +33,38 @@ public class Reception : MonoBehaviour
             if (knockbackCounter <= 0)
             {
                 isKnockback = false;
+                rb.linearVelocity = Vector3.zero;
             }
-            return;
-            /*            else
-                        {
-                            return;
-                        }*/
         }
     }
 
-    /* public void KnockBack(Vector3 pos)
-     {
-         isKnockback = true;
-         knockbackForce = knockbackTime;
-
-         knockbackDir = (transform.position - pos).normalized;
-
-         rb.linearVelocity = Vector3.zero;
-         rb.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
-     }*/
-    public void KnockBack(Vector3 pos,float force)
+    private void FixedUpdate()
     {
-        //ノックバック時間＆判定設定
-        knockbackCounter = knockbackTime;
-        isKnockback = true;
-
-        //ノックバック方向取得＆正規化
-        knockbackDir = transform.position - pos;
-        knockbackDir.Normalize();
+        if (isKnockback)
+        {
+            rb.linearVelocity = knockbackDir;
+        }
     }
 
-    public void DamagePlahyer()
+    public void KnockBack(Vector3 pos,float force)
+    {
+        if(invincibilityCounter > 0)return;
+
+        isKnockback = true;
+        knockbackCounter = knockbackTime;
+
+        knockbackDir = (transform.position - pos).normalized * force;
+        rb.linearVelocity = Vector3.zero;
+
+        invincibilityCounter = StunInvincibleTime;
+    }
+
+   /* public void DamagePlahyer()
     {
         //無敵じゃないとき攻撃を受けたらLayerかTagを変更する
         if (invincibilityCounter <= 0)
         {
             invincibilityCounter = StunInvincibleTime;
         }
-    }
+    }*/
 }

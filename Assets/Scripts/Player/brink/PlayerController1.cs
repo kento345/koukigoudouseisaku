@@ -56,7 +56,7 @@ public class PlayerController1 : MonoBehaviour
     private PlayerInput playerInput;
     [SerializeField] private Text IDtext;
 
-
+    Reception reception;
 
     private void Awake()
     {
@@ -110,6 +110,7 @@ public class PlayerController1 : MonoBehaviour
         IDtext.text += $"Player {playerID + 1}\n";
 
         rb = GetComponent<Rigidbody>();
+        reception = GetComponent<Reception>();
     }
 
     void FixedUpdate()
@@ -158,6 +159,8 @@ public class PlayerController1 : MonoBehaviour
     void Move()
     {
         if (isfinish) { return; }
+        if (reception != null && reception.isKnockback) return;
+
         if (isPrese)
         {
             curentSpeed = speed2;
@@ -220,11 +223,8 @@ public class PlayerController1 : MonoBehaviour
         {
             if (isTackling)
             {
-               
                 Reception p = collision.gameObject.GetComponent<Reception>();
-               
-                p.KnockBack(transform.position,curentknockbackForce);
-                p.DamagePlahyer();
+                p.KnockBack(transform.position, curentknockbackForce);
             }
         }
     }

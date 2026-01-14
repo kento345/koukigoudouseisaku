@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3702558243841740008}
   - component: {fileID: 412306676394497422}
+  - component: {fileID: 5737200393422065101}
   - component: {fileID: 1827331847830177389}
   - component: {fileID: 2657973930504160728}
   - component: {fileID: 4819170231551504973}
@@ -55,18 +56,29 @@ MonoBehaviour:
   ChargeMoveSpeedRate: 0.3
   rotSpeed: 10
   ChargeRotateSpeedRate: 0.7
-  tackleForce: 20
+  tackleForce: 15
   tackleDuration: 0.5
   tackleCooldown: 1
-  WeakKnockbackForce: 5
-  StrongKnockbackForce: 10
-  invincibleTime: 1
-  isInvincible: 0
   StrongRecoveryTime: 1
-  isTackled: 0
+  WeakKnockbackForce: 10
+  StrongKnockbackForce: 20
   isStrt: 0
   chargeMax: 5
   IDtext: {fileID: 3838055736849510194}
+--- !u!114 &5737200393422065101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694982432414425745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cdb9ae1392a804e8de32c678e26583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isKnockback: 0
+  StunInvincibleTime: 1
 --- !u!114 &1827331847830177389
 MonoBehaviour:
   m_ObjectHideFlags: 0
