@@ -27,7 +27,7 @@ public class PlayerJoinedManager2 : MonoBehaviour
 
     [SerializeField] private Transform[] pos = default;         //生成位置
 
-    private PlayerCharChange P;
+  
 
 
     private void Awake()
@@ -35,21 +35,14 @@ public class PlayerJoinedManager2 : MonoBehaviour
         //最大参加可能数で配列を初期化
         joinedDevices = new InputDevice[maxPlayers];
         // InputActionを有効化し、コールバックを設定
-      /*  joinAction.Enable();
-        joinAction.performed += OnJoin;*/
+        joinAction.Enable();
+        joinAction.performed += OnJoin;
 
         //-----Text非表示-----
         device1text.enabled = false;
         device2text.enabled = false;
         device3text.enabled = false;
         device4text.enabled = false;
-
-        P = playerPrefab.GetComponent<PlayerCharChange>();
-    }
-    private void OnEnable()
-    {
-        joinAction.Enable();
-        joinAction.performed += OnJoin;
     }
 
     private void OnDisable()
@@ -75,13 +68,11 @@ public class PlayerJoinedManager2 : MonoBehaviour
         if (currentCount >= maxPlayers) return;
 
 
-        var obj = PlayerInput.Instantiate(
+         PlayerInput.Instantiate(
             playerPrefab.gameObject,
             pos[currentCount].position,
             Quaternion.identity
          );
-
-        P.Set(obj);
 
             //現在の参加数にデバイスを追加その後カウントを増やす
             joinedDevices[currentCount] = device;
