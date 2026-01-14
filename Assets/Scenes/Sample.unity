@@ -438,10 +438,10 @@ PrefabInstance:
       addedObject: {fileID: 1641829484}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53a279bb6bdcd6f469a4f1df0524ba81, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1641829483}
+      addedObject: {fileID: 1641829482}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53a279bb6bdcd6f469a4f1df0524ba81, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1641829482}
+      addedObject: {fileID: 1641829486}
   m_SourcePrefab: {fileID: 100100000, guid: 53a279bb6bdcd6f469a4f1df0524ba81, type: 3}
 --- !u!1 &1641829481 stripped
 GameObject:
@@ -471,21 +471,6 @@ CapsuleCollider:
   m_Height: 196.91711
   m_Direction: 1
   m_Center: {x: 0, y: 99.90274, z: 0}
---- !u!114 &1641829483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641829481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a440126d46d96748856b0bf9b75addc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WeakKnockbackForce: 15
-  StrongKnockbackForce: 30
-  StunInvincibleTime: 1
 --- !u!54 &1641829484
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -513,6 +498,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1641829486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641829481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cdb9ae1392a804e8de32c678e26583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StunInvincibleTime: 1
 --- !u!1 &1802831096
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,8 +691,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 694982432414425745, guid: e749f94523be93540b4d7e4b1e7a5e38, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 2114345742}
   m_SourcePrefab: {fileID: 100100000, guid: e749f94523be93540b4d7e4b1e7a5e38, type: 3}
+--- !u!1 &2114345734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 694982432414425745, guid: e749f94523be93540b4d7e4b1e7a5e38, type: 3}
+  m_PrefabInstance: {fileID: 2064363853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2114345742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114345734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cdb9ae1392a804e8de32c678e26583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StunInvincibleTime: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
