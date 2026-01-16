@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 694982432414425745, guid: e749f94523be93540b4d7e4b1e7a5e38, type: 3}
-  botPrefab: {fileID: 9185647598611041641, guid: c066d80bc7a4a9947b82e2e315b783e0, type: 3}
+  botPrefab: {fileID: 694982432414425745, guid: 26733bc5e071d9049ae7bc1c3acd35ac, type: 3}
   pos:
   - {fileID: 1092320381}
   - {fileID: 867210335}

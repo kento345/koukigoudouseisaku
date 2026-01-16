@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Reception : MonoBehaviour
@@ -8,24 +9,25 @@ public class Reception : MonoBehaviour
 
     private Vector3 knockbackDir;
     public bool isKnockback = false;
+    public bool isHit = false;
 
+    private CapsuleCollider col;
+
+   
     [SerializeField] private float StunInvincibleTime = 1.0f; //–³“GŠÔ
-    private float invincibilityCounter;
+ 
 
     Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (invincibilityCounter > 0)
-        {
-            invincibilityCounter -= Time.deltaTime;
-        }
         if (isKnockback)
         {
             knockbackCounter -= Time.deltaTime;
@@ -48,23 +50,25 @@ public class Reception : MonoBehaviour
 
     public void KnockBack(Vector3 pos,float force)
     {
-        if(invincibilityCounter > 0)return;
-
         isKnockback = true;
         knockbackCounter = knockbackTime;
 
         knockbackDir = (transform.position - pos).normalized * force;
         rb.linearVelocity = Vector3.zero;
-
-        invincibilityCounter = StunInvincibleTime;
+        Debug.Log("–³“GŠJn");
+        StartCoroutine(Hit());
     }
 
-   /* public void DamagePlahyer()
+    IEnumerator Hit()
     {
-        //–³“G‚¶‚á‚È‚¢‚Æ‚«UŒ‚‚ğó‚¯‚½‚çLayer‚©Tag‚ğ•ÏX‚·‚é
-        if (invincibilityCounter <= 0)
-        {
-            invincibilityCounter = StunInvincibleTime;
-        }
-    }*/
+        isHit = true;
+        col.enabled = false;
+        rb.useGravity = false;
+        yield return new WaitForSeconds(StunInvincibleTime);
+
+        rb.useGravity = true;
+        col.enabled = true;
+        Debug.Log("–³“GI—¹");
+        isHit = false;
+    }
 }

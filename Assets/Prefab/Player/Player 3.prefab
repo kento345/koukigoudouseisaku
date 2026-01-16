@@ -38,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 3697787270351404334}
   - {fileID: 4137404791333111410}
+  - {fileID: 4712302242522034508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &412306676394497422
@@ -60,10 +61,12 @@ MonoBehaviour:
   tackleDuration: 0.5
   tackleCooldown: 1
   StrongRecoveryTime: 1
-  WeakKnockbackForce: 10
-  StrongKnockbackForce: 20
+  WeakKnockbackForce: 15
+  StrongKnockbackForce: 30
   isStrt: 0
   chargeMax: 5
+  searchArea: {fileID: 3639781588055422935}
+  angle: 50
   IDtext: {fileID: 3838055736849510194}
 --- !u!114 &5737200393422065101
 MonoBehaviour:
@@ -285,6 +288,59 @@ CapsuleCollider:
   m_Height: 2.0144818
   m_Direction: 1
   m_Center: {x: 0.017481089, y: 1.001633, z: 0}
+--- !u!1 &9006977715993378344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4712302242522034508}
+  - component: {fileID: 3639781588055422935}
+  m_Layer: 0
+  m_Name: Collide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4712302242522034508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006977715993378344}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3702558243841740008}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3639781588055422935
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006977715993378344}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &3808801270009748165
 PrefabInstance:
   m_ObjectHideFlags: 0

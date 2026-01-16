@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
@@ -49,6 +50,12 @@ public class PlayerController1 : MonoBehaviour
     private float t = 0f; //チャージ量
     public float chargeMax = 5.0f; //チャージ上限
     private bool isMax = false;//チャージがMaxかのフラグ
+
+    [Header("当たり判定設定")]
+    [SerializeField] private SphereCollider searchArea;
+    [SerializeField] private float angle = 45f;
+
+    [SerializeField] private float radi;
 
 
     //-----PlayerID-----
@@ -116,6 +123,8 @@ public class PlayerController1 : MonoBehaviour
     void FixedUpdate()
     {
         float mag = inputVer.magnitude;
+
+        radi = searchArea.radius;
 
         if (isStrt)
         {
@@ -217,15 +226,42 @@ public class PlayerController1 : MonoBehaviour
         isMax = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (isTackling)
+            Vector3 posDir = other.transform.position - this.transform.position;
+            float target_angle = Vector3.Angle(this.transform.forward, posDir);
+
+            var dist = Vector3.Distance(other.transform.position, transform.position);
+
+            if (target_angle > angle) { return; }
+
+            if (target_angle <= angle)
             {
-                Reception p = collision.gameObject.GetComponent<Reception>();
-                p.KnockBack(transform.position, curentknockbackForce);
+                if (Physics.Raycast(this.transform.position + Vector3.up * 1.2f, posDir, out RaycastHit hit))
+                {
+                    if (hit.collider == other)
+                    {
+                        if (isTackling)
+                        {
+                            Reception p = other.gameObject.GetComponent<Reception>();
+                            if (p.isHit) { return; }
+                            p.KnockBack(transform.position, curentknockbackForce);
+                        }
+                    }
+                }
             }
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        var pos = transform.position;
+        pos.y = 1.0f;
+        Handles.color = Color.red;
+        Handles.DrawSolidArc(pos, Vector3.up, Quaternion.Euler(0.0f, -angle, 0f) * transform.forward, angle * 2f, searchArea.radius);
+    }
+#endif
 }
