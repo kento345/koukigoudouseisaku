@@ -11,23 +11,24 @@ public class Reception : MonoBehaviour
     public bool isKnockback = false;
     public bool isHit = false;
 
-    private CapsuleCollider col;
+    private Collider col;
 
-   
     [SerializeField] private float StunInvincibleTime = 1.0f; //–³“GŽžŠÔ
- 
 
     Rigidbody rb;
+    Animator animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        col = GetComponent<CapsuleCollider>();
+        animator = GetComponentInChildren<Animator>();
+        col = GetComponent<Collider>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (isKnockback)
         {
             knockbackCounter -= Time.deltaTime;
@@ -38,6 +39,9 @@ public class Reception : MonoBehaviour
                 rb.linearVelocity = Vector3.zero;
             }
         }
+
+        if (!animator) { return; }
+        animator.SetBool("IsHit", isKnockback);
     }
 
     private void FixedUpdate()
@@ -48,14 +52,13 @@ public class Reception : MonoBehaviour
         }
     }
 
-    public void KnockBack(Vector3 pos,float force)
+    public void KnockBack(Vector3 pos, float force)
     {
         isKnockback = true;
         knockbackCounter = knockbackTime;
 
-        knockbackDir = (transform.position - pos).normalized * force;
+        knockbackDir = pos.normalized * force;
         rb.linearVelocity = Vector3.zero;
-        Debug.Log("–³“GŠJŽn");
         StartCoroutine(Hit());
     }
 

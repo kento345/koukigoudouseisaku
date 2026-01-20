@@ -51,11 +51,14 @@ public class PlayerController1 : MonoBehaviour
     public float chargeMax = 5.0f; //チャージ上限
     private bool isMax = false;//チャージがMaxかのフラグ
 
+    bool isAttack1 = false;
+    bool isAttack2 = false;
+
+
     [Header("当たり判定設定")]
     [SerializeField] private SphereCollider searchArea;
     [SerializeField] private float angle = 45f;
 
-    [SerializeField] private float radi;
 
 
     //-----PlayerID-----
@@ -64,6 +67,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private Text IDtext;
 
     Reception reception;
+    Animator animator;
 
     private void Awake()
     {
@@ -117,58 +121,57 @@ public class PlayerController1 : MonoBehaviour
         IDtext.text += $"Player {playerID + 1}\n";
 
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         reception = GetComponent<Reception>();
     }
 
     void FixedUpdate()
     {
+        if (reception != null && !reception.isKnockback)
+        {
+            if (isStrt)
+            {
+                if (t < chargeMax)
+                {
+                    t += Time.deltaTime;
+                }
+                if (t >= chargeMax)
+                {
+                    isMax = true;
+                }
+            }
+            else if (!isStrt)
+            {
+                t = 0f;
+            }
+            if (isfinish)
+            {
+                if (curentRecoveryTime > 0)
+                {
+                    curentRecoveryTime -= Time.deltaTime;
+                }
+                if (curentRecoveryTime <= 0)
+                {
+                    isfinish = false;
+                    curentRecoveryTime = StrongRecoveryTime;
+                }
+            }
+            Move();
+        }
+
+
+
         float mag = inputVer.magnitude;
-
-        radi = searchArea.radius;
-
-        if (isStrt)
-        {
-            if (t < chargeMax)
-            {
-                t += Time.deltaTime;
-            }
-            if (t >= chargeMax)
-            {
-                isMax = true;
-            }
-        }
-        else if (!isStrt)
-        {
-            t = 0f;
-        }
-        if (isfinish)
-        {
-            if (curentRecoveryTime > 0)
-            {
-                curentRecoveryTime -= Time.deltaTime;
-            }
-            if (curentRecoveryTime <= 0)
-            {
-                isfinish = false;
-                curentRecoveryTime = StrongRecoveryTime;
-            }
-        }
-        if (isMax)
-        {
-            curentknockbackForce = StrongKnockbackForce;
-        }
-        else
-        {
-            curentknockbackForce = WeakKnockbackForce;
-        }
-
-        Move();
+        animator.SetFloat("Speed", mag);
+        animator.SetBool("IsChage", isStrt);
+        animator.SetBool("IsAttack1", isAttack1);
+        animator.SetBool("IsAttack2", isAttack2);
     }
 
     void Move()
     {
         if (isfinish) { return; }
-        if (reception != null && reception.isKnockback) return;
+        //if (reception != null && reception.isKnockback) return;
 
         if (isPrese)
         {
@@ -201,8 +204,20 @@ public class PlayerController1 : MonoBehaviour
     void Tackle()
     {
         if (isfinish) { return; }
+        if (reception != null && reception.isKnockback) return;
         isTackling = true;
         lastTackleTime = Time.time;
+
+        if (isMax)
+        {
+            curentknockbackForce = StrongKnockbackForce;
+            isAttack2 = true;
+        }
+        else
+        {
+            curentknockbackForce = WeakKnockbackForce;
+            isAttack1 = true;
+        }
 
         rb.AddForce(transform.forward * tackleForce, ForceMode.Impulse);
 
@@ -216,7 +231,7 @@ public class PlayerController1 : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         isTackling = false;
-       
+
         //ここで硬直処理
         if (isMax)
         {
@@ -224,6 +239,8 @@ public class PlayerController1 : MonoBehaviour
         }
 
         isMax = false;
+        isAttack1 = false;
+        isAttack2 = false;
     }
 
     private void OnTriggerStay(Collider other)
@@ -247,7 +264,11 @@ public class PlayerController1 : MonoBehaviour
                         {
                             Reception p = other.gameObject.GetComponent<Reception>();
                             if (p.isHit) { return; }
-                            p.KnockBack(transform.position, curentknockbackForce);
+                            p.KnockBack(rb.linearVelocity.normalized, curentknockbackForce);
+
+                            //当たった時点でInvokeをキャンセルしてタックルを止める
+                            CancelInvoke("EndTackle");
+                            EndTackle();
                         }
                     }
                 }
