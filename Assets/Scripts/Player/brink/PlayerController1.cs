@@ -55,6 +55,14 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private SphereCollider searchArea;
     [SerializeField] private float angle = 45f;
 
+    [Header("エフェクト設定")]
+    [SerializeField] private ParticleSystem run;  //走り
+    [SerializeField] private ParticleSystem chage;//チャージ
+    [SerializeField] private ParticleSystem strong;//強
+    [SerializeField] private ParticleSystem wask;//弱
+
+  
+
 
 
     //-----PlayerID-----
@@ -76,6 +84,17 @@ public class PlayerController1 : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         inputVer = context.ReadValue<Vector2>();
+        if (context.performed)
+        {
+            if (run && !run.isPlaying)
+                run.Play();
+        }
+
+        if (context.canceled)
+        {
+            if (run && run.isPlaying)
+                run.Stop();
+        }
     }
 
     public void OnTackle(InputAction.CallbackContext context)
@@ -115,6 +134,8 @@ public class PlayerController1 : MonoBehaviour
         }
 
         IDtext.text += $"Player {playerID + 1}\n";
+
+        run.Stop();
 
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
@@ -162,6 +183,9 @@ public class PlayerController1 : MonoBehaviour
         animator.SetBool("IsChage", isStrt);
         animator.SetBool("IsAttack1", isAttack1);
         animator.SetBool("IsAttack2", isAttack2);
+
+        if (!run) return;
+        run.transform.position = this.transform.position;
     }
 
     void Move()
@@ -179,12 +203,13 @@ public class PlayerController1 : MonoBehaviour
             curentSpeed = speed;
             curentRotSpeed = rotSpeed;
         }
-
+       
         if (!isTackling)
         {
             Vector3 move = new Vector3(inputVer.x, 0f, inputVer.y) * curentSpeed * Time.deltaTime;
             //transform.position += move;
             rb.MovePosition(rb.position + move);
+           
 
 
 
