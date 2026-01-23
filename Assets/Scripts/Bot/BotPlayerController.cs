@@ -137,15 +137,17 @@ public class BotPlayerController : MonoBehaviour
                     curentRecoveryTime = StrongRecoveryTime;
                 }
             }
-            if (target != null)
+            distance = Vector3.Distance(this.transform.position, target.transform.position);
+
+            if (target != null && distance > 5)
             {
                 Move();
             }
 
-            distance = Vector3.Distance(this.transform.position, target.transform.position);
+           
 
             // ˆê’è‚Ì”ÍˆÍ“à‚É“ü‚Á‚½‚çÀs
-            if (distance < 15f)
+            if (distance < 15f && distance > 5)
             {
                 Atack(true);
                r = Random.Range(5, 10);
