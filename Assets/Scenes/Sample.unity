@@ -1282,6 +1282,10 @@ MonoBehaviour:
   chargeMax: 5
   WeakKnockbackForce: 15
   StrongKnockbackForce: 30
+  searchInterval: 0.5
+  searchRange: 15
+  stageMin: {x: -12, y: 1, z: -19}
+  stageMax: {x: 12, y: 1, z: 19}
   searchArea: {fileID: 6879637220989891615}
   angle: 45
   players: []
