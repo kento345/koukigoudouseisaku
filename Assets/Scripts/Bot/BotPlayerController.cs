@@ -96,66 +96,84 @@ public class BotPlayerController : MonoBehaviour
         {
             if (obj != this.gameObject)
             {
-                players.Add(obj);
-
                 float dist = (transform.position - obj.transform.position).sqrMagnitude;
+                // 距離条件を満たすものだけListに追加
+                if (dist <= 100.0f)
+                {
+                    players.Add(obj);
+
+                }
+                // 一番近いPlayerを探す
                 if (dist < minDistance)
                 {
                     minDistance = dist;
                     target = obj;
                 }
             }
-
-
         }
-        if (reception != null && !reception.isKnockback)
+
+        if (isStrt)
         {
-            if (isStrt)
+            if (t < chargeMax)
             {
-                if (t < chargeMax)
-                {
-                    t += Time.deltaTime;
-                }
-                if (t >= chargeMax)
-                {
-                    isMax = true;
-                }
+                t += Time.deltaTime;
             }
-            else if (!isStrt)
+            if (t >= chargeMax)
             {
-                t = 0f;
+                isMax = true;
             }
-            if (isfinish)
+        }
+        else if (!isStrt)
+        {
+            t = 0f;
+        }
+        if (isfinish)
+        {
+            if (curentRecoveryTime > 0)
             {
-                if (curentRecoveryTime > 0)
-                {
-                    curentRecoveryTime -= Time.deltaTime;
-                }
-                if (curentRecoveryTime <= 0)
-                {
-                    isfinish = false;
-                    curentRecoveryTime = StrongRecoveryTime;
-                }
+                curentRecoveryTime -= Time.deltaTime;
             }
-            distance = Vector3.Distance(this.transform.position, target.transform.position);
+            if (curentRecoveryTime <= 0)
+            {
+                isfinish = false;
+                curentRecoveryTime = StrongRecoveryTime;
+            }
+        }
+        if (reception != null && reception.isKnockback)
+        {
+            isStrt = false;
+            isPrese = false;
 
-            if (target != null && distance > 5)
-            {
-                Move();
-            }
+            t = 0f;
+            isMax = false;
 
-           
+            isAttack1 = false;
+            isAttack2 = false;
 
-            // 一定の範囲内に入ったら実行
-            if (distance < 15f && distance > 5)
-            {
-                Atack(true);
-               r = Random.Range(5, 10);
-            }
-            if(distance < r)
-            {
-                Atack(false);
-            }
+            // 念のためタックルも止める
+            CancelInvoke(nameof(EndTackle));
+            isTackling = false;
+        }
+
+        distance = Vector3.Distance(this.transform.position, target.transform.position);
+
+        if (target != null && distance > 5)
+        {
+            Move();
+        }
+
+
+
+        // 一定の範囲内に入ったら実行
+        if (distance < 15f /*&& distance > 5*/)
+        {
+            Atack(true);
+            r = Random.Range(5, 10);
+            Debug.Log(r);
+        }
+        if (distance < r)
+        {
+            Atack(false);
         }
     }
 
@@ -260,7 +278,7 @@ public class BotPlayerController : MonoBehaviour
 
             if (target_angle <= angle)
             {
-                if (Physics.Raycast(this.transform.position + Vector3.up * 1.2f, posDir, out RaycastHit hit))
+                if (Physics.Raycast(this.transform.position + Vector3.up * 0.5f, posDir, out RaycastHit hit))
                 {
                     if (hit.collider == other)
                     {
