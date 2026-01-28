@@ -59,7 +59,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] private ParticleSystem run;  //走り
     [SerializeField] private ParticleSystem chage;//チャージ
     [SerializeField] private ParticleSystem strong;//強
-    [SerializeField] private ParticleSystem wask;//弱
+    [SerializeField] private ParticleSystem weak;//弱
 
   
 
@@ -107,11 +107,13 @@ public class PlayerController1 : MonoBehaviour
             {
                 isStrt = true;
                 isPrese = true;
+                chage.Play();
             }
         }
         if (context.canceled)
         {
             isPrese = false;
+            chage.Stop();
             if (isStrt && !isTackling && Time.time > lastTackleTime + tackleCooldown)
             {
                 Tackle();
@@ -136,6 +138,9 @@ public class PlayerController1 : MonoBehaviour
         IDtext.text += $"Player {playerID + 1}\n";
 
         run.Stop();
+        chage.Stop();
+        strong.Stop();  
+        weak.Stop();
 
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
@@ -231,11 +236,13 @@ public class PlayerController1 : MonoBehaviour
 
         if (isMax)
         {
+            strong.Play();
             curentknockbackForce = StrongKnockbackForce;
             isAttack2 = true;
         }
         else
         {
+            weak.Play();
             curentknockbackForce = WeakKnockbackForce;
             isAttack1 = true;
         }
@@ -255,6 +262,8 @@ public class PlayerController1 : MonoBehaviour
 
         isAttack1 = false;
         isAttack2 = false;
+        strong.Stop();  
+        weak.Stop();
 
         //ここで硬直処理
         if (isMax)

@@ -142,6 +142,11 @@ public class BotPlayerController : MonoBehaviour
             t = 0f;
             isMax = false;
         }
+        float mag = rb.linearVelocity.magnitude;
+        animator.SetFloat("Speed",mag);
+        animator.SetBool("IsChage", isStrt);
+        animator.SetBool("isAttack1", isAttack1);
+        animator.SetBool("isAttack2", isAttack2);
     }
 
     void Move()
