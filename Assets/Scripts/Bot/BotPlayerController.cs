@@ -86,7 +86,7 @@ public class BotPlayerController : MonoBehaviour
 
     void Start()
     {
-      rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         reception = GetComponent<Reception>();
     }
@@ -283,6 +283,8 @@ public class BotPlayerController : MonoBehaviour
         Handles.DrawSolidArc(pos, Vector3.up, Quaternion.Euler(0.0f, -angle, 0f) * transform.forward, angle * 2f, searchArea.radius);
     }
 #endif
+
+
 
     void SearchTarget()
     {
