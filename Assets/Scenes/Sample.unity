@@ -167,9 +167,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: tackleForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: WeakKnockbackForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: StrongKnockbackForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_Name
       value: PlayerBot (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -317,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &470825722
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -401,7 +417,7 @@ Transform:
   m_GameObject: {fileID: 470825721}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.54, y: 1.11, z: 3.93}
+  m_LocalPosition: {x: 3.95, y: 1.11, z: 7.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -469,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &837696819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -553,7 +569,7 @@ Transform:
   m_GameObject: {fileID: 837696818}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.56, y: 1.62, z: 4.64}
+  m_LocalPosition: {x: -4.11, y: 1.62, z: 10.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -769,7 +785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4098843980712510267, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.89
       objectReference: {fileID: 0}
     - target: {fileID: 4098843980712510267, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -799,9 +815,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: stageMax.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: stageMax.z
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: stageMin.x
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: stageMin.z
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: tackleForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: WeakKnockbackForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: StrongKnockbackForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_Name
       value: PlayerBot (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -826,7 +874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5128585452599055210, guid: 167166524bb4a3649bdebd38dcc85931, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 5128585452599055210, guid: 167166524bb4a3649bdebd38dcc85931, type: 3}
       propertyPath: m_LocalPosition.y
@@ -834,7 +882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5128585452599055210, guid: 167166524bb4a3649bdebd38dcc85931, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5128585452599055210, guid: 167166524bb4a3649bdebd38dcc85931, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1043,9 +1091,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: tackleForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: WeakKnockbackForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: StrongKnockbackForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_Name
       value: PlayerBot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1184,9 +1248,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: tackleForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: searchInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: WeakKnockbackForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7808853501653010841, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: StrongKnockbackForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
       propertyPath: m_Name
       value: PlayerBot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850857652530924876, guid: 2a4f7f33b5305df4fba54c986265c79f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
