@@ -54,6 +54,7 @@ public class BOTController : MonoBehaviour
 
     private float searchTimer = 0f;
 
+    //-------------------------------------
     [Header("ステージ範囲")]
     //四角形
     /* [SerializeField] private Vector3 stageMin; // ステージの最小座標
@@ -61,6 +62,7 @@ public class BOTController : MonoBehaviour
     //円形
     [SerializeField] private Vector3 stageCenter; // ステージ中心
     [SerializeField] private float stageRadius = 20f; // ステージ半径
+    //-------------------------------------
 
     [Header("当たり判定設定")]
     [SerializeField] private SphereCollider searchArea;
@@ -125,6 +127,10 @@ public class BOTController : MonoBehaviour
 
         if (distance < 15f)
         {
+            if (IsOutOfStage(target.transform.position))
+            {
+                ResetTarget();
+            }
             Atack(true);
         }
 
@@ -286,6 +292,19 @@ public class BOTController : MonoBehaviour
         pos.y = 1.0f;
         Handles.color = Color.red;
         Handles.DrawSolidArc(pos, Vector3.up, Quaternion.Euler(0.0f, -angle, 0f) * transform.forward, angle * 2f, searchArea.radius);
+
+        // ===== ステージ範囲（追加） =====
+        Handles.color = Color.green;
+
+        Vector3 center = stageCenter;
+        center.y = 0f; // XZ平面に固定
+
+        // 円の外枠
+        Handles.DrawWireDisc(center, Vector3.up, stageRadius);
+
+        // 中心点
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(center, 0.3f);
     }
 #endif
 
@@ -338,6 +357,7 @@ public class BOTController : MonoBehaviour
             target = null;
         }
     }
+    //-------------------------------------
 
     bool IsOutOfStage(Vector3 pos)
     {
@@ -355,6 +375,8 @@ public class BOTController : MonoBehaviour
 
         return distance > stageRadius;
     }
+    //-------------------------------------
+
     void ResetTarget()
     {
         target = null;
