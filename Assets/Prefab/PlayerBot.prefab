@@ -63,7 +63,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4098843980712510267}
   - component: {fileID: 7808853501653010841}
-  - component: {fileID: 3950899947697502250}
   - component: {fileID: 9039766167622807585}
   - component: {fileID: 6653254168639989730}
   - component: {fileID: 1919741818777334030}
@@ -119,44 +118,12 @@ MonoBehaviour:
   StrongKnockbackForce: 5
   searchInterval: 0.5
   searchRange: 15
-  stageMin: {x: -12, y: 0, z: -4}
-  stageMax: {x: 12, y: 0, z: 19}
+  stageCenter: {x: 0, y: 0, z: 7}
+  stageRadius: 13
   searchArea: {fileID: 3496058096360327020}
   angle: 45
   players: []
   outPlayers: []
-  target: {fileID: 0}
---- !u!114 &3950899947697502250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7850857652530924876}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ba799afc3c7de84ea67eea7605087e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  ChargeMoveSpeedRate: 0.3
-  rotSpeed: 10
-  ChargeRotateSpeedRate: 0.7
-  tackleForce: 15
-  tackleDuration: 0.5
-  tackleCooldown: 1
-  StrongRecoveryTime: 1
-  isStrt: 0
-  chargeMax: 5
-  WeakKnockbackForce: 15
-  StrongKnockbackForce: 30
-  searchInterval: 0.5
-  searchRange: 15
-  stageMin: {x: -10, y: 1, z: -18}
-  stageMax: {x: 10, y: 1, z: 18}
-  searchArea: {fileID: 3496058096360327020}
-  angle: 45
-  players: []
   target: {fileID: 0}
 --- !u!114 &9039766167622807585
 MonoBehaviour:

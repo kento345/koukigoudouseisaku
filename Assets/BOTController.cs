@@ -55,8 +55,12 @@ public class BOTController : MonoBehaviour
     private float searchTimer = 0f;
 
     [Header("ステージ範囲")]
-    [SerializeField] private Vector3 stageMin; // ステージの最小座標
-    [SerializeField] private Vector3 stageMax; // ステージの最大座標
+    //四角形
+    /* [SerializeField] private Vector3 stageMin; // ステージの最小座標
+     [SerializeField] private Vector3 stageMax; // ステージの最大座標*/
+    //円形
+    [SerializeField] private Vector3 stageCenter; // ステージ中心
+    [SerializeField] private float stageRadius = 20f; // ステージ半径
 
     [Header("当たり判定設定")]
     [SerializeField] private SphereCollider searchArea;
@@ -337,11 +341,19 @@ public class BOTController : MonoBehaviour
 
     bool IsOutOfStage(Vector3 pos)
     {
-        // x, y, z がすべて範囲内かチェック
-        if (pos.x < stageMin.x || pos.x > stageMax.x) return true;
-        if (pos.z < stageMin.z || pos.z > stageMax.z) return true;
+        /* // x,z がすべて範囲内かチェック
+         if (pos.x < stageMin.x || pos.x > stageMax.x) return true;
+         if (pos.z < stageMin.z || pos.z > stageMax.z) return true;
 
-        return false; // 全部範囲内ならステージ内
+         return false; // 全部範囲内ならステージ内*/
+
+        // Yは無視してXZ平面だけで判定
+        //Vector3 centerXZ = new Vector3(stageCenter.x, 0f, stageCenter.z);
+        Vector3 posXZ = new Vector3(pos.x, 0f, pos.z);
+
+        float distance = Vector3.Distance(stageCenter, posXZ);
+
+        return distance > stageRadius;
     }
     void ResetTarget()
     {
