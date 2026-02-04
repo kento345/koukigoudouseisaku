@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class PlayerJoinedManager : MonoBehaviour
 {
     [SerializeField] private InputAction joinAction = default;  //参加するときの入力
+    [SerializeField] private InputAction leaveAction = default;  //参加するときの入力
+
     [SerializeField] private int maxPlayers = 4;        //参加上限
     //----------
     [SerializeField] private Text device1text;         //1デバイス名Text
@@ -17,8 +19,6 @@ public class PlayerJoinedManager : MonoBehaviour
     [SerializeField] private Text device4text;         //4デバイス名Text
 
     
-    
-
     private InputDevice[] joinedDevices;                        //参加中のデバイス
     private int currentCount = 0;                               //現在の参加数
 
@@ -33,6 +33,9 @@ public class PlayerJoinedManager : MonoBehaviour
         joinAction.Enable();
         joinAction.performed += OnJoin;
 
+        leaveAction.Enable();
+        leaveAction.performed += OnLeave;
+
         //-----Text非表示-----
         device1text.enabled = false;
         device2text.enabled = false;
@@ -45,6 +48,9 @@ public class PlayerJoinedManager : MonoBehaviour
     {
         joinAction.performed -= OnJoin;
         joinAction.Disable();
+
+        leaveAction.performed -= OnLeave;
+        leaveAction.Disable();
     }
 
     private void OnJoin(InputAction.CallbackContext context)
@@ -64,28 +70,50 @@ public class PlayerJoinedManager : MonoBehaviour
         //現在の参加数にデバイスを追加その後カウントを増やす
         joinedDevices[currentCount] = device;
         currentCount++;
-        if (currentCount == 1)
-        {
-            device1text.enabled = true;
-            device1text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
-        if (currentCount == 2)
-        {
-            device2text.enabled = true;
-            device2text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
-        if (currentCount == 3)
-        {
-            device3text.enabled = true;
-            device3text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
-        if (currentCount == 4)
-        {
-            device4text.enabled = true;
-            device4text.text += $"Player {currentCount}: {device.displayName}\n";
-        }
+       UpdateDeviceTexts();
     }
 
+    void OnLeave(InputAction.CallbackContext context)
+    {
+        var device = context.control.device;
+        Debug.Log("退出");
+        int index = -1;
+        for (int i = 0;i < currentCount; i++)
+        {
+            if (joinedDevices[i] == device)
+            {
+                index = i;
+                break;
+            }
+        }
+        if(index == -1)return;
+
+        for(int i = index; i < currentCount - 1; i++)
+        {
+            joinedDevices[i] = joinedDevices[i + 1];
+        }
+
+        joinedDevices[currentCount - 1] = null;
+        currentCount--;
+        UpdateDeviceTexts();
+    }
+
+    void UpdateDeviceTexts()
+    {
+        Text[] texts = { device1text, device2text, device3text, device4text };
+
+        for (int i = 0; i < texts.Length; i++)
+        {
+            texts[i].enabled = false;
+            texts[i].text = "";
+        }
+
+        for (int i = 0; i < currentCount; i++)
+        {
+            texts[i].enabled = true;
+            texts[i].text = $"Player {i + 1}: {joinedDevices[i].displayName}";
+        }
+    }
 
 
     //StartButtonが押されたときのScene移行

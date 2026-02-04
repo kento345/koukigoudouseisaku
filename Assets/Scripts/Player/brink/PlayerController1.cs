@@ -182,15 +182,15 @@ public class PlayerController1 : MonoBehaviour
         }
 
 
+        if (animator != null)
+        {
+            float mag = inputVer.magnitude;
+            animator.SetFloat("Speed", mag);
+            animator.SetBool("IsChage", isStrt);
+            animator.SetBool("IsAttack1", isAttack1);
+            animator.SetBool("IsAttack2", isAttack2);
+        }
 
-        float mag = inputVer.magnitude;
-        animator.SetFloat("Speed", mag);
-        animator.SetBool("IsChage", isStrt);
-        animator.SetBool("IsAttack1", isAttack1);
-        animator.SetBool("IsAttack2", isAttack2);
-
-        if (!run) return;
-        run.transform.position = this.transform.position;
     }
 
     void Move()

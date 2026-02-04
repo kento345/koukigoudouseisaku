@@ -1106,6 +1106,23 @@ MonoBehaviour:
       m_Action: Join
       m_Flags: 0
     m_Flags: 0
+  leaveAction:
+    m_Name: Leave
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: da72c268-c233-497c-bdcc-1e8f4e75ea3d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d698e86d-713c-4627-8a6f-2a18fe9c09e2
+      m_Path: <Keyboard>/l
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Leave
+      m_Flags: 0
+    m_Flags: 0
   maxPlayers: 4
   device1text: {fileID: 3135800518147371274}
   device2text: {fileID: 8983017348186945978}
