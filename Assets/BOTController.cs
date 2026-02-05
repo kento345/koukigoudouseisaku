@@ -125,7 +125,7 @@ public class BOTController : MonoBehaviour
             Move();
         }
 
-        if (distance < 15f)
+        if (distance < 15f /*&& distance > r*/)
         {
             if (IsOutOfStage(target.transform.position))
             {
@@ -153,6 +153,18 @@ public class BOTController : MonoBehaviour
         {
             t = 0f;
             isMax = false;
+        }
+        if (isfinish)
+        {
+            if (curentRecoveryTime > 0)
+            {
+                curentRecoveryTime -= Time.deltaTime;
+            }
+            if (curentRecoveryTime <= 0)
+            {
+                isfinish = false;
+                curentRecoveryTime = StrongRecoveryTime;
+            }
         }
         float mag = rb.linearVelocity.magnitude;
         animator.SetFloat("Speed", mag);
@@ -199,8 +211,9 @@ public class BOTController : MonoBehaviour
                 if (!isStrt)
                 {
                     r = Random.Range(5f, 10f);
+                    isStrt = true;
                 }
-                isStrt = true;
+                
                 isPrese = true;
             }
         }
@@ -330,7 +343,7 @@ public class BOTController : MonoBehaviour
 
     void SearchTarget()
     {
-        if (isTackling || isStrt) return;
+        //if (isTackling || isStrt) return;
 
         target = null;
         minDistance = Mathf.Infinity;
@@ -385,6 +398,7 @@ public class BOTController : MonoBehaviour
         isPrese = false;
         isMax = false;
         t = 0f;
+        r = 0f;
 
         isAttack1 = false;
         isAttack2 = false;

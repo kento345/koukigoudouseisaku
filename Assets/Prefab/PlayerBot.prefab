@@ -108,14 +108,14 @@ MonoBehaviour:
   ChargeMoveSpeedRate: 0.3
   rotSpeed: 10
   ChargeRotateSpeedRate: 0.7
-  tackleForce: 0
+  tackleForce: 15
   tackleDuration: 0.5
   tackleCooldown: 1
   StrongRecoveryTime: 1
   isStrt: 0
   chargeMax: 5
-  WeakKnockbackForce: 2.5
-  StrongKnockbackForce: 5
+  WeakKnockbackForce: 15
+  StrongKnockbackForce: 30
   searchInterval: 0.5
   searchRange: 15
   stageCenter: {x: 0, y: 0, z: 7}

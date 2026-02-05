@@ -1116,7 +1116,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: d698e86d-713c-4627-8a6f-2a18fe9c09e2
-      m_Path: <Keyboard>/l
+      m_Path: <Mouse>/backButton
       m_Interactions: 
       m_Processors: 
       m_Groups: 
