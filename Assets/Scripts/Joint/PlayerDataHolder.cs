@@ -37,6 +37,14 @@ public class PlayerDataHolder : MonoBehaviour
         //Player数の保存
         playerCount = cout;
     }
+    
+    public bool IsDeviceForPlayer(int playerIndex,InputDevice device)
+    {
+        if (device == null) return false;
+        if(playerIndex < 0 || playerIndex >= devices.Length) return false;
+
+        return devices[playerIndex] == device;
+    }
 
     
     public InputDevice[] GetDevices() => devices; //Playerのデバイス取得

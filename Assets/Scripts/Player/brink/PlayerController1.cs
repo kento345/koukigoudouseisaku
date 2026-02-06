@@ -83,6 +83,11 @@ public class PlayerController1 : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!PlayerDataHolder.Instance.IsDeviceForPlayer(
+          playerID,
+          context.control.device))
+            return;
+
         inputVer = context.ReadValue<Vector2>();
         if (context.performed)
         {
@@ -99,6 +104,11 @@ public class PlayerController1 : MonoBehaviour
 
     public void OnTackle(InputAction.CallbackContext context)
     {
+        if (!PlayerDataHolder.Instance.IsDeviceForPlayer(
+            playerID,
+            context.control.device))
+            return;
+
         if (context.performed)
         {
             isfinish = false;
