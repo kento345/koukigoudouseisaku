@@ -22,9 +22,6 @@ public class PlayerJoinedManager : MonoBehaviour
 
                     
     private List<InputDevice> joinDevices = new List<InputDevice>();             //参加中のデバイス
-  
-
-
 
 
     private void Awake()
