@@ -32,7 +32,6 @@ public class PlayerDataHolder : MonoBehaviour
         for (int i = 0; i < cout; i++)
         {
             devices[i] = devis[i];
-            //playerCount = cout;
         }
         //Player数の保存
         playerCount = cout;

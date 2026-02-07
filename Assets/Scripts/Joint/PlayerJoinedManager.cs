@@ -23,6 +23,9 @@ public class PlayerJoinedManager : MonoBehaviour
                     
     private List<InputDevice> joinDevices = new List<InputDevice>();             //参加中のデバイス
 
+    //カーソル
+    [SerializeField] private Canvas uiCanv;
+    [SerializeField] private GameObject[] cursors;
 
     private void Awake()
     {
@@ -60,8 +63,13 @@ public class PlayerJoinedManager : MonoBehaviour
         //押されたデバイスを取得
         var device = context.control.device;
         if (joinDevices.Contains(device)) {return; }
-        joinDevices.Add(device);
 
+        int i = joinDevices.Count;
+        var cursor = Instantiate(cursors[i],uiCanv.transform,false);
+        
+
+
+        joinDevices.Add(device);
         UpdateDeviceTexts();
     }
 
