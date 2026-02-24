@@ -17,6 +17,7 @@ public class Reception : MonoBehaviour
 
     Rigidbody rb;
     Animator animator;
+    
 
     void Start()
     {

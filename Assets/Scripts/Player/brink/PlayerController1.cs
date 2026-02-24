@@ -314,6 +314,16 @@ public class PlayerController1 : MonoBehaviour
                             CancelInvoke("EndTackle");
                             EndTackle();
                         }
+                        /*if (stateManager.ActionState == ActionState.Attack)
+                        {
+                            Reception p = other.gameObject.GetComponent<Reception>();
+                            //if (p.isHit) { return; }
+                            p.KnockBack(rb.linearVelocity.normalized, curentknockbackForce);
+                            Debug.Log("攻撃Hit");
+                            //当たった時点でInvokeをキャンセルしてタックルを止める
+                            CancelInvoke("EndAttack");
+                            EndAttack();
+                        }*/
                     }
                 }
             }
