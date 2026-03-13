@@ -40,7 +40,8 @@ public class PlayerDataHolder : MonoBehaviour
     public bool IsDeviceForPlayer(int playerIndex,InputDevice device)
     {
         if (device == null) return false;
-        if(playerIndex < 0 || playerIndex >= devices.Length) return false;
+        if (devices == null) return false;
+        if (playerIndex < 0 || playerIndex >= devices.Length) return false;
 
         return devices[playerIndex] == device;
     }

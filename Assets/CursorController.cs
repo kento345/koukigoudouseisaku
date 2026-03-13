@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,16 +31,16 @@ public class CursorController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-       /* if (!PlayerDataHolder.Instance.IsDeviceForPlayer(
-          input.playerIndex,
-          context.control.device))
-            return;*/
-        inputVer = context.ReadValue<Vector2>();
+        if (!PlayerDataHolder.Instance.IsDeviceForPlayer(input.playerIndex, context.control.device)) { return;}
+
+            inputVer = context.ReadValue<Vector2>();
     }
 
     public void OnEnter(InputAction.CallbackContext context)
     {
         if(!context.performed) {return; }
+        if (!PlayerDataHolder.Instance.IsDeviceForPlayer(input.playerIndex, context.control.device)) { return; }
+
 
         eventData = new PointerEventData(eventSystem);
         eventData.position = trans.position;

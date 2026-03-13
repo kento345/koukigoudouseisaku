@@ -1,8 +1,5 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -24,8 +21,9 @@ public class PlayerJoinedManager : MonoBehaviour
     private List<InputDevice> joinDevices = new List<InputDevice>();             //参加中のデバイス
 
     //カーソル
-    [SerializeField] private Canvas uiCanv;
-    [SerializeField] private GameObject[] cursors;
+    [SerializeField] private Canvas uiCanv;                                     //カーソル表示Canvas
+    [SerializeField] private GameObject[] cursors;                              //カーソルPrefab
+    private List<GameObject> playerCursors = new List<GameObject>();　　　　　　 //生成したカーソル
 
     private void Awake()
     {
@@ -55,6 +53,8 @@ public class PlayerJoinedManager : MonoBehaviour
         leaveAction.Disable();
     }
 
+
+    //-----参加-----
     private void OnJoin(InputAction.CallbackContext context)
     {
         //現在の参加数がＭａｘならreturn
@@ -62,25 +62,48 @@ public class PlayerJoinedManager : MonoBehaviour
 
         //押されたデバイスを取得
         var device = context.control.device;
+        //重複参加防止
         if (joinDevices.Contains(device)) {return; }
 
+        //参加中の数
         int i = joinDevices.Count;
-        var cursor = Instantiate(cursors[i],uiCanv.transform,false);
-        
 
-
+        //リストにデバイスの追加
         joinDevices.Add(device);
+        //カーソルの生成
+        var cursor = Instantiate(cursors[i],uiCanv.transform,false);
+        //カーソルの保存
+        playerCursors.Add(cursor);
+
+        //PlayerDataの更新
+        PlayerDataHolder.Instance.SetDevices(joinDevices.ToArray(), joinDevices.Count);
+
+        //UIの更新
         UpdateDeviceTexts();
     }
 
+    //-----退出-----
     void OnLeave(InputAction.CallbackContext context)
     {
+        //入力したデバイスの取得
         var device = context.control.device;
-        if (joinDevices.Remove(device)) {
-            UpdateDeviceTexts();
-        }
+        //Index取得
+        int index = joinDevices.IndexOf(device);
+        //参加していない場合はreturn
+        if (index == -1) return;
+
+        //デバイス,カーソルの削除
+        joinDevices.RemoveAt(index);
+        Destroy(playerCursors[index]);
+        //List,PlayerDataの更新
+        playerCursors.RemoveAt(index);
+        PlayerDataHolder.Instance.SetDevices(joinDevices.ToArray(), joinDevices.Count);
+
+        //UIの更新
+        UpdateDeviceTexts();
     }
 
+    //-----UIの更新-----
     void UpdateDeviceTexts()
     {
         Text[] texts = { device1text, device2text, device3text, device4text };
